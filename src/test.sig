@@ -36,6 +36,11 @@ type   succ   tm -> tm.
 
 type   is_nat   tm -> prolog.
 
+type   null   tm.
+type   cons   tm -> tm -> tm.
+
+type   is_natlist   tm -> prolog.
+
 % A "quick"-style FP
 kind   qbound    type.
 type   qheight   int -> qbound.

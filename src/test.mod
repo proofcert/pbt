@@ -47,6 +47,9 @@ check Cert (l\ A l) :-
 prog (is_nat zero) (tt).
 prog (is_nat (succ N)) (is_nat N).
 
+prog (is_natlist null) (tt).
+prog (is_natlist (cons Hd Tl)) (and (is_nat Hd) (is_natlist Tl)).
+
 % "Quick"-style FPC
 
 tt_expert (qgen _).
