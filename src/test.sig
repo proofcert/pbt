@@ -26,14 +26,12 @@ type   prog_expert   cert -> cert -> o.
 type   check   cert -> prolog -> o.
 
 % A sample program
-type   zero   tm.
-type   succ   tm -> tm.
-
+type   zero     tm.
+type   succ     tm -> tm.
 type   is_nat   tm -> prolog.
 
-type   null   tm.
-type   cons   tm -> tm -> tm.
-
+type   null         tm.
+type   cons         tm -> tm -> tm.
 type   is_natlist   tm -> prolog.
 
 % A "quick"-style FP
