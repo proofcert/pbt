@@ -24,6 +24,11 @@ interp A :-
 check Cert tt :-
 	tt_expert Cert.
 
+check Cert (and G1 G2) :-
+	and_expert Cert Cert1 Cert2,
+	check Cert1 G1,
+	check Cert2 G2.
+
 check Cert (or G1 G2) :-
 	or_expert Cert Cert' Choice,
 	(
@@ -32,10 +37,8 @@ check Cert (or G1 G2) :-
 		(Choice = right, check Cert' G2)
 	).
 
-check Cert (and G1 G2) :-
-	and_expert Cert Cert1 Cert2,
-	check Cert1 G1,
-	check Cert2 G2.
+check Cert (nabla G) :-
+	pi x\ check Cert (G x).
 
 check Cert A :-
 	prog_expert Cert Cert',
