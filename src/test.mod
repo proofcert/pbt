@@ -53,6 +53,9 @@ prog (is_nat (succ N)) (is_nat N).
 prog (is_natlist null) (tt).
 prog (is_natlist (cons Hd Tl)) (and (is_nat Hd) (is_natlist Tl)).
 
+prog (is_exp error) (tt).
+prog (is_exp (lam E)) (nabla (x\ is_exp (E x))).
+
 % "Quick"-style FPC
 
 tt_expert (qgen _).
