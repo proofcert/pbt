@@ -26,6 +26,7 @@ type   prog_expert   cert -> cert -> o.
 type   check   cert -> prolog -> o.
 
 % A sample program
+% TODO: Better typing
 type   zero     tm.
 type   succ     tm -> tm.
 type   is_nat   tm -> prolog.
@@ -39,9 +40,34 @@ type   ord          tm -> prolog.
 type   ord_bad      tm -> prolog.
 type   ins          tm -> tm -> tm -> prolog.
 
+% c hd nl tl
+% cns (old cons)
+
+type   c        tm -> tm.
+type   app      tm -> tm -> tm.
+type   lam      (tm -> tm) -> tm -> tm.
 type   error    tm.
-type   lam      (tm -> tm) -> tm.
-type   is_exp   tm -> prolog.
+
+type cns,hd,tl,nl  tm.
+type toInt         tm -> tm.
+
+type intTy   tm.
+type funTy   tm -> tm -> tm.
+type listTy  tm.
+
+type   bind         tm -> tm -> tm.
+type   is_ty        tm -> prolog.
+type   is_cnt       tm -> prolog.
+type   is_exp       tm -> prolog.
+type   is_elt       tm -> prolog.
+type   is_eltlist   tm -> prolog.
+type   tcc          tm -> tm -> prolog.
+type   memb         tm -> tm -> prolog.
+type   wt           tm -> tm -> tm -> prolog.
+type   is_value     tm -> prolog.
+type   is_error     tm -> prolog.
+type   step         tm -> tm -> prolog.
+type   progress     tm -> prolog.
 
 % A "quick"-style FP
 kind   qbound    type.
@@ -51,3 +77,4 @@ type   qgen      qbound -> cert.
 
 % Tests
 type   cex_ord_bad   tm -> tm -> o.
+type   cex_prog_1    tm -> tm -> o.
