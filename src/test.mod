@@ -47,11 +47,35 @@ check Cert A :-
 
 % Program
 
+%% Natural numbers
+
 prog (is_nat zero) (tt).
 prog (is_nat (succ N)) (is_nat N).
 
+prog (leq zero _) (tt). % _ assumed is_nat here
+prog (leq (succ X) (succ Y)) (leq X Y).
+
+prog (gt (succ _) zero) (tt). % _ assumed is_nat here
+prog (gt (succ X) (succ Y)) (gt X Y).
+
+%% Lists
+
 prog (is_natlist null) (tt).
 prog (is_natlist (cons Hd Tl)) (and (is_nat Hd) (is_natlist Tl)).
+
+prog (ord null) (tt).
+prog (ord (cons X null)) (is_nat X).
+prog (ord (cons X (cons Y Rs))) (and (leq X Y) (ord (cons Y Rs))).
+
+prog (ord_bad null) (tt).
+prog (ord_bad (cons X null)) (is_nat X).
+prog (ord_bad (cons X (cons Y Rs))) (and (leq X Y) (ord_bad Rs)).
+
+prog (ins X null (cons X null)) (is_nat X).
+prog (ins X (cons Y Ys) (cons X (cons Y Ys))) (leq X Y).
+prog (ins X (cons Y Ys) (cons Y Rs)) (and (gt X Y) (ins X Ys Rs)).
+
+%% Lambda-terms
 
 prog (is_exp error) (tt).
 prog (is_exp (lam E)) (nabla (x\ is_exp (E x))).
@@ -69,3 +93,10 @@ prog_expert (qgen (qheight H)) (qgen (qheight H')) :-
 prog_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 	In > 0,
 	In' is In - 1.
+
+% Tests
+cex_ord_bad N L :-
+	check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
+	interp (ord_bad L),
+	interp (ins N L O),
+	not (interp (ord_bad O)).

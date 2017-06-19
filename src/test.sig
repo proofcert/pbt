@@ -29,10 +29,15 @@ type   check   cert -> prolog -> o.
 type   zero     tm.
 type   succ     tm -> tm.
 type   is_nat   tm -> prolog.
+type   leq      tm -> tm -> prolog.
+type   gt       tm -> tm -> prolog.
 
 type   null         tm.
 type   cons         tm -> tm -> tm.
 type   is_natlist   tm -> prolog.
+type   ord          tm -> prolog.
+type   ord_bad      tm -> prolog.
+type   ins          tm -> tm -> tm -> prolog.
 
 type   error    tm.
 type   lam      (tm -> tm) -> tm.
@@ -43,3 +48,6 @@ kind   qbound    type.
 type   qheight   int -> qbound.
 type   qsize     int -> int -> qbound.
 type   qgen      qbound -> cert.
+
+% Tests
+type   cex_ord_bad   tm -> tm -> o.
