@@ -2,17 +2,12 @@ sig test.
 
 % Formulas and their terms
 kind   prolog, tm   type.
-type   tt           prolog.
-type   and, or      prolog -> prolog -> prolog. 
-type   all          (tm -> prolog) -> prolog.
-
-% Explicit variable encoding
-kind   evs   type.
-type   fst   evs -> tm.
-type   rst   evs -> evs.
+type   tt            prolog.
+type   and, or       prolog -> prolog -> prolog.
+type   some, nabla   (tm -> prolog) -> prolog.
 
 % Program and interpreter
-type   interp   (evs -> prolog) -> o.
+type   interp   prolog -> o.
 type   prog     prolog -> prolog -> o.
 
 % Certificates
@@ -28,7 +23,7 @@ type   and_expert    cert -> cert -> cert -> o.
 type   prog_expert   cert -> cert -> o.
 
 % Checker
-type   check   cert -> (evs -> prolog) -> o.
+type   check   cert -> prolog -> o.
 
 % A sample program
 type   zero   tm.

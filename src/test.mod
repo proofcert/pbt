@@ -2,29 +2,29 @@ module test.
 
 % Interpreter
 
-interp (l\ tt).
+interp tt.
 
-interp (l\ and (G1 l) (G2 l)) :-
+interp (and G1 G2) :-
 	interp G1,
 	interp G2.
 
-interp (l\ or (G1 l) (G2 l)) :-
+interp (or G1 G2) :-
 	interp G1;
 	interp G2.
 
-interp (l\ all (x\ G x l)) :-
-	interp (l\ G (fst l) (rst l)).
+interp (nabla G) :-
+	pi x\ interp (G x).
 
-interp (l\ A l) :-
-	(pi l\ prog (A l) (G l)),
+interp A :-
+	prog A G,
 	interp G.
 
 % Checker
 
-check Cert (l\ tt) :-
+check Cert tt :-
 	tt_expert Cert.
 
-check Cert (l\ or (G1 l) (G2 l)) :-
+check Cert (or G1 G2) :-
 	or_expert Cert Cert' Choice,
 	(
 		(Choice = left, check Cert' G1)
@@ -32,14 +32,14 @@ check Cert (l\ or (G1 l) (G2 l)) :-
 		(Choice = right, check Cert' G2)
 	).
 
-check Cert (l\ and (G1 l) (G2 l)) :-
+check Cert (and G1 G2) :-
 	and_expert Cert Cert1 Cert2,
 	check Cert1 G1,
 	check Cert2 G2.
 
-check Cert (l\ A l) :-
+check Cert A :-
 	prog_expert Cert Cert',
-	(pi l\ prog (A l) (G l)),
+	prog A G,
 	check Cert' G.
 
 % Program
