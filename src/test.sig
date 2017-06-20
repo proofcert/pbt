@@ -27,18 +27,20 @@ type   check   cert -> prolog -> o.
 
 % A sample program
 % TODO: Better typing
-type   zero     tm.
-type   succ     tm -> tm.
-type   is_nat   tm -> prolog.
-type   leq      tm -> tm -> prolog.
-type   gt       tm -> tm -> prolog.
+kind   nat      type.
+type   zero     nat.
+type   succ     nat -> nat.
+type   is_nat   nat -> prolog.
+type   leq      nat -> nat -> prolog.
+type   gt       nat -> nat -> prolog.
 
-type   null         tm.
-type   cons         tm -> tm -> tm.
-type   is_natlist   tm -> prolog.
-type   ord          tm -> prolog.
-type   ord_bad      tm -> prolog.
-type   ins          tm -> tm -> tm -> prolog.
+kind   lst          type -> type.
+type   null         lst A.
+type   cons         A -> lst A -> lst A.
+type   is_natlist   lst nat -> prolog.
+type   ord          lst nat -> prolog.
+type   ord_bad      lst nat -> prolog.
+type   ins          nat -> lst nat -> lst nat -> prolog.
 
 % c hd nl tl
 % cns (old cons)
@@ -49,7 +51,7 @@ type   lam      (tm -> tm) -> tm -> tm.
 type   error    tm.
 
 type cns,hd,tl,nl  tm.
-type toInt         tm -> tm.
+type toInt         nat -> tm.
 
 type intTy   tm.
 type funTy   tm -> tm -> tm.
@@ -60,10 +62,10 @@ type   is_ty        tm -> prolog.
 type   is_cnt       tm -> prolog.
 type   is_exp       tm -> prolog.
 type   is_elt       tm -> prolog.
-type   is_eltlist   tm -> prolog.
+type   is_eltlist   lst tm -> prolog.
 type   tcc          tm -> tm -> prolog.
-type   memb         tm -> tm -> prolog.
-type   wt           tm -> tm -> tm -> prolog.
+type   memb         tm -> lst tm -> prolog.
+type   wt           lst tm -> tm -> tm -> prolog.
 type   is_value     tm -> prolog.
 type   is_error     tm -> prolog.
 type   step         tm -> tm -> prolog.
@@ -76,5 +78,5 @@ type   qsize     int -> int -> qbound.
 type   qgen      qbound -> cert.
 
 % Tests
-type   cex_ord_bad   tm -> tm -> o.
+type   cex_ord_bad   nat -> lst nat -> o.
 type   cex_prog_1    tm -> tm -> o.
