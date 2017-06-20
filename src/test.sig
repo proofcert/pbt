@@ -42,16 +42,15 @@ type   ord          lst nat -> prolog.
 type   ord_bad      lst nat -> prolog.
 type   ins          nat -> lst nat -> lst nat -> prolog.
 
-% c hd nl tl
-% cns (old cons)
+kind   cnt   type.
 
-type   c        tm -> tm.
+type   c        cnt -> tm.
 type   app      tm -> tm -> tm.
 type   lam      (tm -> tm) -> tm -> tm.
 type   error    tm.
 
-type cns,hd,tl,nl  tm.
-type toInt         nat -> tm.
+type   cns, hd, tl, nl   cnt.
+type   toInt             nat -> cnt.
 
 type intTy   tm.
 type funTy   tm -> tm -> tm.
@@ -59,11 +58,11 @@ type listTy  tm.
 
 type   bind         tm -> tm -> tm.
 type   is_ty        tm -> prolog.
-type   is_cnt       tm -> prolog.
+type   is_cnt       cnt -> prolog.
 type   is_exp       tm -> prolog.
 type   is_elt       tm -> prolog.
 type   is_eltlist   lst tm -> prolog.
-type   tcc          tm -> tm -> prolog.
+type   tcc          cnt -> tm -> prolog.
 type   memb         tm -> lst tm -> prolog.
 type   wt           lst tm -> tm -> tm -> prolog.
 type   is_value     tm -> prolog.
