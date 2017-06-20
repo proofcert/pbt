@@ -1,14 +1,14 @@
 sig test.
 
 % Formulas and their terms
-kind   prolog, tm   type.
+kind   prolog, tm    type.
 type   tt            prolog.
 type   and, or       prolog -> prolog -> prolog.
-type   some, nabla   (tm -> prolog) -> prolog.
+type   some, nabla   (A -> prolog) -> prolog.
 
 % Program and interpreter
-type   interp   prolog -> o.
 type   prog     prolog -> prolog -> o.
+type   interp   prolog -> o.
 
 % Certificates
 kind   choice        type.
