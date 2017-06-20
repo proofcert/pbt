@@ -52,10 +52,10 @@ check Cert A :-
 prog (is_nat zero) (tt).
 prog (is_nat (succ N)) (is_nat N).
 
-prog (leq zero _) (tt). % _ assumed is_nat here
+prog (leq zero _) (tt).
 prog (leq (succ X) (succ Y)) (leq X Y).
 
-prog (gt (succ _) zero) (tt). % _ assumed is_nat here
+prog (gt (succ _) zero) (tt).
 prog (gt (succ X) (succ Y)) (gt X Y).
 
 %% Lists
@@ -108,14 +108,12 @@ prog (memb X (cons X _)) (tt).
 prog (memb X (cons Y Gamma)) (memb X Gamma).
 
 % Bug 1
-% Base cases _ should have types
 prog (wt Ga M A) (memb (bind M A) Ga).
 prog (wt _ error _) (tt).
 prog (wt _ (c M) T) (tcc M T).
 prog (wt E (app M N) U) (and (wt E M (funTy T U)) (wt E N U)). % exists T
 prog (wt Ga (lam F Tx) (funTy Tx T)) (nabla x\ wt (cons (bind x Tx) Ga) (F x) T).
 
-%Base cases _ should have types
 prog (is_value (c _)) (tt).
 prog (is_value (lam _ _)) (tt).
 prog (is_value (app (c cns) V)) (is_value V).

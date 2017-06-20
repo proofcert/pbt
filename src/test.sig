@@ -1,7 +1,7 @@
 sig test.
 
 % Formulas and their terms
-kind   prolog, tm    type.
+kind   prolog        type.
 type   tt            prolog.
 type   and, or       prolog -> prolog -> prolog.
 type   some, nabla   (A -> prolog) -> prolog.
@@ -26,7 +26,6 @@ type   prog_expert   cert -> cert -> o.
 type   check   cert -> prolog -> o.
 
 % A sample program
-% TODO: Better typing
 kind   nat      type.
 type   zero     nat.
 type   succ     nat -> nat.
