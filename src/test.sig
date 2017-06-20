@@ -42,12 +42,12 @@ type   ord          lst nat -> prolog.
 type   ord_bad      lst nat -> prolog.
 type   ins          nat -> lst nat -> lst nat -> prolog.
 
-kind   cnt   type.
+kind   cnt, exp   type.
 
-type   c        cnt -> tm.
-type   app      tm -> tm -> tm.
-type   lam      (tm -> tm) -> tm -> tm.
-type   error    tm.
+type   c        cnt -> exp.
+type   app      exp -> exp -> exp.
+type   lam      (exp -> exp) -> tm -> exp.
+type   error    exp.
 
 type   cns, hd, tl, nl   cnt.
 type   toInt             nat -> cnt.
@@ -56,19 +56,19 @@ type intTy   tm.
 type funTy   tm -> tm -> tm.
 type listTy  tm.
 
-type   bind         tm -> tm -> tm.
+type   bind         exp -> tm -> tm.
 type   is_ty        tm -> prolog.
 type   is_cnt       cnt -> prolog.
-type   is_exp       tm -> prolog.
+type   is_exp       exp -> prolog.
 type   is_elt       tm -> prolog.
 type   is_eltlist   lst tm -> prolog.
 type   tcc          cnt -> tm -> prolog.
 type   memb         tm -> lst tm -> prolog.
-type   wt           lst tm -> tm -> tm -> prolog.
-type   is_value     tm -> prolog.
-type   is_error     tm -> prolog.
-type   step         tm -> tm -> prolog.
-type   progress     tm -> prolog.
+type   wt           lst tm -> exp -> tm -> prolog.
+type   is_value     exp -> prolog.
+type   is_error     exp -> prolog.
+type   step         exp -> exp -> prolog.
+type   progress     exp -> prolog.
 
 % A "quick"-style FP
 kind   qbound    type.
@@ -78,4 +78,4 @@ type   qgen      qbound -> cert.
 
 % Tests
 type   cex_ord_bad   nat -> lst nat -> o.
-type   cex_prog_1    tm -> tm -> o.
+type   cex_prog_1    exp -> tm -> o.
