@@ -42,29 +42,29 @@ type   ord          lst nat -> prolog.
 type   ord_bad      lst nat -> prolog.
 type   ins          nat -> lst nat -> lst nat -> prolog.
 
-kind   cnt, exp   type.
+kind   cnt, exp, ty   type.
 
 type   c        cnt -> exp.
 type   app      exp -> exp -> exp.
-type   lam      (exp -> exp) -> tm -> exp.
+type   lam      (exp -> exp) -> ty -> exp.
 type   error    exp.
 
 type   cns, hd, tl, nl   cnt.
 type   toInt             nat -> cnt.
 
-type intTy   tm.
-type funTy   tm -> tm -> tm.
-type listTy  tm.
+type   intTy    ty.
+type   funTy    ty -> ty -> ty.
+type   listTy   ty.
 
-type   bind         exp -> tm -> tm.
-type   is_ty        tm -> prolog.
+type   bind         exp -> ty -> tm.
+type   is_ty        ty -> prolog.
 type   is_cnt       cnt -> prolog.
 type   is_exp       exp -> prolog.
 type   is_elt       tm -> prolog.
 type   is_eltlist   lst tm -> prolog.
-type   tcc          cnt -> tm -> prolog.
+type   tcc          cnt -> ty -> prolog.
 type   memb         tm -> lst tm -> prolog.
-type   wt           lst tm -> exp -> tm -> prolog.
+type   wt           lst tm -> exp -> ty -> prolog.
 type   is_value     exp -> prolog.
 type   is_error     exp -> prolog.
 type   step         exp -> exp -> prolog.
@@ -78,4 +78,4 @@ type   qgen      qbound -> cert.
 
 % Tests
 type   cex_ord_bad   nat -> lst nat -> o.
-type   cex_prog_1    exp -> tm -> o.
+type   cex_prog_1    exp -> ty -> o.
