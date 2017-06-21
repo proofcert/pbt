@@ -28,6 +28,3 @@ type   is_value     exp -> prolog.
 type   is_error     exp -> prolog.
 type   step         exp -> exp -> prolog.
 type   progress     exp -> prolog.
-
-% Tests
-type   cex_prog_1    exp -> ty -> o.
