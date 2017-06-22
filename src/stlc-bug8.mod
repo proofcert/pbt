@@ -7,7 +7,7 @@ accumulate stlc-step.
 
 % Tests
 cexpres E E' T :-
-	check (qgen (qheight 3)) (is_exp' null E),
+	check (pair (qgen (qheight 3)) (qgen (qsize 6 _))) (is_exp' null E),
 	%check (qgen (qheight 3)) (is_exp E'),
 	%check (qgen (qheight 1)) (is_ty T),
 	interp (step E E'),
