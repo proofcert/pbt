@@ -75,6 +75,9 @@ prog (ins X null (cons X null)) (is_nat X).
 prog (ins X (cons Y Ys) (cons X (cons Y Ys))) (leq X Y).
 prog (ins X (cons Y Ys) (cons Y Rs)) (and (gt X Y) (ins X Ys Rs)).
 
+prog (append null K K) (tt).
+prog (append (cons X L) K (cons X M)) (append L K M).
+
 % "Quick"-style FPC
 
 tt_expert (qgen (qheight _)).
