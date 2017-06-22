@@ -18,7 +18,9 @@ type   listTy   ty.
 type   bind         exp -> ty -> elt.
 type   is_ty        ty -> prolog.
 type   is_cnt       cnt -> prolog.
-type   is_exp       exp -> prolog.
+type   is_exp       exp -> prolog.            % Simple exp generation
+type   is_exp'      lst exp -> exp -> prolog. % Maintaining list of lambda vars
+type   memb_ctx     lst exp -> exp -> o.
 type   is_elt       elt -> prolog.
 type   is_eltlist   lst elt -> prolog.
 type   tcc          cnt -> ty -> prolog.
