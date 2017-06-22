@@ -77,7 +77,8 @@ prog (ins X (cons Y Ys) (cons Y Rs)) (and (gt X Y) (ins X Ys Rs)).
 
 % "Quick"-style FPC
 
-tt_expert (qgen _).
+tt_expert (qgen (qheight _)).
+tt_expert (qgen (qsize In In)).
 
 and_expert (qgen (qheight H)) (qgen (qheight H)) (qgen (qheight H)).
 and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
