@@ -6,4 +6,4 @@ accum_sig stlc-value.
 accum_sig stlc-step.
 
 % Tests
-type   cex_prog_1    exp -> ty -> o.
+type   cexprog   exp -> ty -> o.
