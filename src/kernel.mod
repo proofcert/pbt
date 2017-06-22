@@ -89,6 +89,20 @@ prog_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 	In > 0,
 	In' is In - 1.
 
+% Certificate pairing
+
+tt_expert (pair C1 C2) :-
+	tt_expert C1,
+	tt_expert C2.
+
+and_expert (pair C1 C2) (pair C1' C2') (pair C1'' C2'') :-
+	and_expert C1 C1' C1'',
+	and_expert C2 C2' C2''.
+
+prog_expert (pair C1 C2) (pair C1' C2') :-
+	prog_expert C1 C1',
+	prog_expert C2 C2'.
+
 % Tests
 cex_ord_bad N L :-
 	check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),

@@ -47,5 +47,8 @@ type   qheight   int -> qbound.
 type   qsize     int -> int -> qbound.
 type   qgen      qbound -> cert.
 
+% Certificate pairing
+type   pair   cert -> cert -> cert.
+
 % Tests
 type   cex_ord_bad   nat -> lst nat -> o.
