@@ -7,3 +7,4 @@ accum_sig stlc-step.
 
 % Tests
 type   cexprog   exp -> ty -> o.
+type   cexpres   exp -> exp -> ty -> o.
