@@ -6,7 +6,7 @@ accumulate stlc-value-bug2.
 accumulate stlc-step.
 
 % Tests
-cex_prog_2 E T :-
+cexprog E T :-
 	check (qgen (qheight 5)) (is_exp E),
 	check (qgen (qheight 1)) (is_ty T),
 	interp (wt null E T),
