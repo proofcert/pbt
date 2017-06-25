@@ -1,6 +1,7 @@
 module stlc-bug4.
 accumulate kernel.
 accumulate stlc.
+accumulate stlc-tcc-bug4.
 accumulate stlc-wt.
 accumulate stlc-value.
 accumulate stlc-step.
@@ -16,8 +17,7 @@ prog (add_value (c (toInt (succ X))) (c Y) (c (toInt (succ Z)))) (add_value (c (
 
 % Tests
 cexprog E T :-
-	check (pair (qgen (qheight 5)) (qgen (qsize 10 _))) (is_exp E), % TODO
+	check (pair (qgen (qheight 6)) (qgen (qsize 16 _))) (is_exp E),
 	%check (qgen (qheight 1)) (is_ty T),
 	interp (wt null E T),
- term_to_string E Estr, print Estr, print "\n",
 	not (interp (progress E)).

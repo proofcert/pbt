@@ -36,12 +36,6 @@ prog (is_elt (bind E T)) (and (is_exp E) (is_ty T)).
 prog (is_eltlist null) (tt).
 prog (is_eltlist (cons E L)) (and (is_elt E) (is_eltlist L)).
 
-prog (tcc (toInt _) intTy) (tt).
-prog (tcc nl listTy) (tt).
-prog (tcc hd (funTy listTy intTy)) (tt).
-prog (tcc tl (funTy listTy listTy)) (tt).
-prog (tcc cns (funTy intTy (funTy listTy listTy))) (tt).
-
 % "Polymorphic" membership
 prog (memb X (cons X _)) (tt).
 prog (memb X (cons Y Gamma)) (memb X Gamma).

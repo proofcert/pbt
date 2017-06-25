@@ -1,6 +1,7 @@
 module stlc-bug5.
 accumulate kernel.
 accumulate stlc.
+accumulate stlc-tcc.
 accumulate stlc-wt.
 accumulate stlc-value.
 accumulate stlc-step-bug5.
