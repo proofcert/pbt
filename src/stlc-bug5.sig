@@ -3,7 +3,7 @@ accum_sig kernel.
 accum_sig stlc.
 accum_sig stlc-wt.
 accum_sig stlc-value.
-accum_sig stlc-step.
+accum_sig stlc-step-bug5.
 
 % Tests
 type   cexpres    exp -> exp -> ty -> o.
