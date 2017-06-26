@@ -16,11 +16,11 @@ type   left, right   choice.
 
 kind   idx   type.
 
-kind   cert          type.
-type   tt_expert     cert -> o.
-type   or_expert     cert -> cert -> choice -> o.
-type   and_expert    cert -> cert -> cert -> o.
-type   prog_expert   cert -> cert -> o.
+kind   cert            type.
+type   tt_expert       cert -> o.
+type   or_expert       cert -> cert -> choice -> o.
+type   and_expert      cert -> cert -> cert -> o.
+type   unfold_expert   cert -> cert -> o.
 
 % Checker
 type   check   cert -> prolog -> o.

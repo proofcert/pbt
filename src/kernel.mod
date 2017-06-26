@@ -41,7 +41,7 @@ check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
 check Cert A :-
-	prog_expert Cert Cert',
+	unfold_expert Cert Cert',
 	prog A G,
 	check Cert' G.
 
@@ -86,10 +86,10 @@ tt_expert (qgen (qsize In In)).
 and_expert (qgen (qheight H)) (qgen (qheight H)) (qgen (qheight H)).
 and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
 
-prog_expert (qgen (qheight H)) (qgen (qheight H')) :-
+unfold_expert (qgen (qheight H)) (qgen (qheight H')) :-
 	H > 0,
 	H' is H - 1.
-prog_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
+unfold_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 	In > 0,
 	In' is In - 1.
 
@@ -103,9 +103,9 @@ and_expert (pair C1 C2) (pair C1' C2') (pair C1'' C2'') :-
 	and_expert C1 C1' C1'',
 	and_expert C2 C2' C2''.
 
-prog_expert (pair C1 C2) (pair C1' C2') :-
-	prog_expert C1 C1',
-	prog_expert C2 C2'.
+unfold_expert (pair C1 C2) (pair C1' C2') :-
+	unfold_expert C1 C1',
+	unfold_expert C2 C2'.
 
 % Tests
 cex_ord_bad N L :-
