@@ -50,6 +50,7 @@ type   qsize     int -> int -> qbound.
 type   qgen      qbound -> cert.
 
 % A randomized "quick"-style FPC
+type   qtries    int -> cert.
 type   qrandom   cert.
 
 % Certificate pairing

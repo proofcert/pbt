@@ -171,6 +171,22 @@ or_expert qrandom qrandom Choice :-
 
 unfold_expert qrandom qrandom.
 
+% (Iteration on number of tries, somewhat redundant encoding.)
+
+and_expert (qtries N) qrandom qrandom :-
+	N > 0.
+and_expert (qtries N) Cert Cert :-
+	N > 0,
+	N' is N - 1,
+	unfold_expert (qtries N') Cert.
+
+unfold_expert (qtries N) qrandom :-
+	N > 0.
+unfold_expert (qtries N) Cert :-
+	N > 0,
+	N' is N - 1,
+	unfold_expert (qtries N') Cert.
+
 % Certificate pairing
 
 tt_expert (pair C1 C2) :-
@@ -204,7 +220,7 @@ cex_ord_bad N L :-
 %     1, 0,
 %     0
 cex_ord_bad_random N L :-
-	check qrandom (and (is_nat N) (is_natlist L)),
+	check (qtries 2) (and (is_nat N) (is_natlist L)),
 	term_to_string N NStr, term_to_string L LStr,
 	print NStr, print ", ", print LStr, print "\n",
 	interp (ord_bad L),
