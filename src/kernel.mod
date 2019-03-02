@@ -55,34 +55,87 @@ check Cert A :-
 %% Natural numbers
 
 prog (is_nat N)
-     (or (eq N zero)
-         (and (eq N (succ N')) (is_nat N'))).
+     (or (and (eq N zero)
+              tt
+         )
+         (and (eq N (succ N'))
+              (is_nat N')
+         )
+     ).
 
-prog (leq zero _) (tt).
-prog (leq (succ X) (succ Y)) (leq X Y).
+prog (leq X Y)
+     (or (and (eq X zero)
+              tt
+         )
+         (and (and (eq X (succ X')) (eq Y (succ Y')))
+              (leq X' Y')
+         )
+     ).
 
-prog (gt (succ _) zero) (tt).
-prog (gt (succ X) (succ Y)) (gt X Y).
+prog (gt X Y)
+     (or (and (and (eq X (succ _)) (eq Y zero))
+              tt
+         )
+         (and (and (eq X (succ X')) (eq Y (succ Y')))
+              (gt X' Y')
+         )
+     ).
 
 %% Lists
 
-prog (is_natlist null) (tt).
-prog (is_natlist (cons Hd Tl)) (and (is_nat Hd) (is_natlist Tl)).
+prog (is_natlist L)
+     (or (and (eq L null)
+              tt
+         )
+         (and (eq L (cons Hd Tl))
+              (and (is_nat Hd) (is_natlist Tl))
+         )
+     ).
 
-prog (ord null) (tt).
-prog (ord (cons X null)) (is_nat X).
-prog (ord (cons X (cons Y Rs))) (and (leq X Y) (ord (cons Y Rs))).
+prog (ord L)
+     (or (and (eq L null)
+              tt
+         )
+     (or (and (eq L (cons X null))
+              (is_nat X)
+         )
+         (and (eq L (cons X (cons Y Rs)))
+              (and (leq X Y) (ord (cons Y Rs)))
+         )
+     )).
 
-prog (ord_bad null) (tt).
-prog (ord_bad (cons X null)) (is_nat X).
-prog (ord_bad (cons X (cons Y Rs))) (and (leq X Y) (ord_bad Rs)).
+prog (ord_bad L)
+     (or (and (eq L null)
+              tt
+         )
+     (or (and (eq L (cons X null))
+              (is_nat X)
+         )
+         (and (eq L (cons X (cons Y Rs)))
+              (and (leq X Y) (ord_bad Rs))
+         )
+     )).
 
-prog (ins X null (cons X null)) (is_nat X).
-prog (ins X (cons Y Ys) (cons X (cons Y Ys))) (leq X Y).
-prog (ins X (cons Y Ys) (cons Y Rs)) (and (gt X Y) (ins X Ys Rs)).
+prog (ins X L O)
+     (or (and (and (eq L null) (eq O (cons X null)))
+              (is_nat X)
+         )
+     (or (and (and (eq L (cons Y Ys)) (eq O (cons X (cons Y Ys))))
+              (leq X Y)
+         )
+         (and (and (eq L (cons Y Ys)) (eq O (cons Y Rs)))
+              (and (gt X Y) (ins X Ys Rs))
+         )
+     )).
 
-prog (append null K K) (tt).
-prog (append (cons X L) K (cons X M)) (append L K M).
+prog (append L1 K L2)
+     (or (and (and (eq L1 null) (eq K L2))
+              tt
+         )
+         (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
+              (append L K M)
+         )
+     ).
 
 % "Quick"-style FPC
 
