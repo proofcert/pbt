@@ -5,6 +5,7 @@ kind   prolog        type.
 type   tt            prolog.
 type   and, or       prolog -> prolog -> prolog.
 type   some, nabla   (A -> prolog) -> prolog.
+type   eq            A -> A -> prolog.
 
 % Program and interpreter
 type   prog     prolog -> prolog -> o.

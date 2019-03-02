@@ -15,6 +15,8 @@ interp (or G1 G2) :-
 interp (nabla G) :-
 	pi x\ interp (G x).
 
+interp (eq G G).
+
 interp A :-
 	prog A G,
 	interp G.
@@ -40,6 +42,9 @@ check Cert (or G1 G2) :-
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
+% (At the moment, as with nabla, no eq_expert.)
+check Cert (eq G G).
+
 check Cert A :-
 	unfold_expert Cert Cert',
 	prog A G,
@@ -49,8 +54,9 @@ check Cert A :-
 
 %% Natural numbers
 
-prog (is_nat zero) (tt).
-prog (is_nat (succ N)) (is_nat N).
+prog (is_nat N)
+     (or (eq N zero)
+         (and (eq N (succ N')) (is_nat N'))).
 
 prog (leq zero _) (tt).
 prog (leq (succ X) (succ Y)) (leq X Y).
@@ -86,6 +92,9 @@ tt_expert (qgen (qsize In In)).
 and_expert (qgen (qheight H)) (qgen (qheight H)) (qgen (qheight H)).
 and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
 
+or_expert (qgen (qheight H)) (qgen (qheight H)) Ch.
+or_expert (qgen (qsize In Out)) (qgen (qsize In Out)) Ch.
+
 unfold_expert (qgen (qheight H)) (qgen (qheight H')) :-
 	H > 0,
 	H' is H - 1.
@@ -102,6 +111,10 @@ tt_expert (pair C1 C2) :-
 and_expert (pair C1 C2) (pair C1' C2') (pair C1'' C2'') :-
 	and_expert C1 C1' C1'',
 	and_expert C2 C2' C2''.
+
+or_expert (pair C1 C2) (pair C1' C2') Ch :-
+	or_expert C1 C1' Ch,
+	or_expert C2 C2' Ch.
 
 unfold_expert (pair C1 C2) (pair C1' C2') :-
 	unfold_expert C1 C1',
