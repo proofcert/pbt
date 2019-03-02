@@ -210,3 +210,6 @@ cex_ord_bad_random N L :-
 	interp (ord_bad L),
 	interp (ins N L O),
 	not (interp (ord_bad O)).
+
+main :-
+	cex_ord_bad_random N L.

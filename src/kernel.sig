@@ -59,3 +59,5 @@ type   pair   cert -> cert -> cert.
 type   cex_ord_bad   nat -> lst nat -> o.
 
 type   cex_ord_bad_random   nat -> lst nat -> o.
+
+type   main   o.
