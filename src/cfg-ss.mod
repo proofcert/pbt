@@ -1,5 +1,13 @@
 module cfg-ss.
 
-prog (ss null) (tt).
-prog (ss (cons b W)) (aa W).
-prog (ss (cons a W)) (bb W).
+prog (ss L)
+     (or (and (eq L null)
+              tt
+         )
+     (or (and (eq L (cons b W))
+              (aa W)
+         )
+         (and (eq L (cons a W))
+              (bb W)
+         )
+     )).

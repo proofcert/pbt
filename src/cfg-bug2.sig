@@ -6,4 +6,7 @@ accum_sig cfg-aa.
 accum_sig cfg-bb-bug2.
 
 % Tests
-type   b2c   lst ab -> nat -> nat -> o.
+type   test   cert -> lst ab -> nat -> nat -> o.
+
+type   b2c    lst ab -> nat -> nat -> o.
+type   b2c'   lst ab -> nat -> nat -> o.

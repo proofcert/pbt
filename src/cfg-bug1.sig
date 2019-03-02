@@ -6,4 +6,7 @@ accum_sig cfg-aa.
 accum_sig cfg-bb.
 
 % Tests
-type   b1c   lst ab -> nat -> nat -> o.
+type   test   cert -> lst ab -> nat -> nat -> o.
+
+type   b1c    lst ab -> nat -> nat -> o.
+type   b1c'   lst ab -> nat -> nat -> o.

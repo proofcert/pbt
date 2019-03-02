@@ -1,14 +1,40 @@
 module cfg.
 
-prog (is_ab a) (tt).
-prog (is_ab b) (tt).
+prog (is_ab AB)
+     (or (and (eq AB a)
+              tt
+         )
+         (and (eq AB b)
+              tt
+         )
+     ).
 
-prog (is_ablist null) (tt).
-prog (is_ablist (cons Hd Tl)) (and (is_ab Hd) (is_ablist Tl)).
+prog (is_ablist L)
+     (or (and (eq L null)
+              tt
+         )
+         (and (eq L (cons Hd Tl))
+              (and (is_ab Hd) (is_ablist Tl))
+         )
+     ).
 
-prog (neq a b) (tt).
-prog (neq b a) (tt).
+prog (neq X Y)
+     (or (and (and (eq X a) (eq Y b))
+              tt
+         )
+         (and (and (eq X b) (eq Y a))
+              tt
+         )
+     ).
 
-prog (count _ null zero) (tt).
-prog (count X (cons X Xs) (succ N)) (count X Xs N).
-prog (count X (cons Y Xs) N) (and (neq X Y) (count X Xs N)).
+prog (count X L N)
+     (or (and (and (eq L null) (eq N zero))
+              tt
+         )
+     (or (and (and (eq L (cons X Xs)) (eq N (succ N')))
+              (count X Xs N')
+         )
+         (and (eq L (cons Y Xs))
+              (and (neq X Y) (count X Xs N))
+         )
+     )).
