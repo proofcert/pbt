@@ -49,8 +49,13 @@ type   qheight   int -> qbound.
 type   qsize     int -> int -> qbound.
 type   qgen      qbound -> cert.
 
+% A randomized "quick"-style FPC
+type   qrandom   cert.
+
 % Certificate pairing
 type   pair   cert -> cert -> cert.
 
 % Tests
 type   cex_ord_bad   nat -> lst nat -> o.
+
+type   cex_ord_bad_random   nat -> lst nat -> o.

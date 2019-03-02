@@ -155,6 +155,22 @@ unfold_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 	In > 0,
 	In' is In - 1.
 
+% Randomized "quick"-style FPC
+
+tt_expert qrandom.
+
+and_expert qrandom qrandom qrandom.
+
+or_expert qrandom qrandom Choice :-
+	print "Toss a coin \"0.\" or \"1.\": ",
+        read Random,
+	(
+		(Random = 0, Choice = left);
+		(Random = 1, Choice = right)
+	).
+
+unfold_expert qrandom qrandom.
+
 % Certificate pairing
 
 tt_expert (pair C1 C2) :-
@@ -176,6 +192,21 @@ unfold_expert (pair C1 C2) (pair C1' C2') :-
 % Tests
 cex_ord_bad N L :-
 	check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
+	interp (ord_bad L),
+	interp (ins N L O),
+	not (interp (ord_bad O)).
+
+% N = zero
+%     0
+% L = [zero, succ zero, zero | null]
+%     1, 0,
+%     1, 1, 0,
+%     1, 0,
+%     0
+cex_ord_bad_random N L :-
+	check qrandom (and (is_nat N) (is_natlist L)),
+	term_to_string N NStr, term_to_string L LStr,
+	print NStr, print ", ", print LStr, print "\n",
 	interp (ord_bad L),
 	interp (ins N L O),
 	not (interp (ord_bad O)).
