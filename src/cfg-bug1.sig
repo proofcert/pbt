@@ -10,3 +10,5 @@ type   test   cert -> lst ab -> nat -> nat -> o.
 
 type   b1c    lst ab -> nat -> nat -> o.
 type   b1c'   lst ab -> nat -> nat -> o.
+
+type   qc   o.

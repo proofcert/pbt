@@ -16,4 +16,9 @@ b3c W N :-
 	test (qgen (qheight 5)) W N.
 
 b3c' W N :-
-	test (qtries 1) W N.
+	test (qtries 1000) W N.
+
+qc :-
+	b3c' W N,
+	term_to_string W Wstr, print "W =", print Wstr,
+	term_to_string N Nstr, print "N =", print Nstr.

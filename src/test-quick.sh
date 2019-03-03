@@ -11,8 +11,9 @@
 
 # Launch client as coprocess and rig its standard input and output
 coproc elpi (
-	# Single command-line argument pointing to harness file
-	elpi $1 -test
+	# First command-line argument pointing to harness file
+	# Second command-line argument pointing to nullary test entry predicate
+	elpi $1 -exec "$2."
 ) # No redirects needed
 
 # Seed random number generator (TODO parameterize, use better generator)
@@ -29,8 +30,8 @@ do
 		choice=$(( RANDOM > 16383 ))
 		echo "<< $choice"
 		echo "$choice." >&${elpi[1]}
-	else
-		echo "No match: $line"
+	#else
+	#	echo "No match: $line"
 	fi
 done
 
