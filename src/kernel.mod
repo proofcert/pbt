@@ -1,5 +1,9 @@
 module kernel.
 
+% Helpers
+memb X (X :: L).
+memb X (Y :: L) :- memb X L.
+
 % Interpreter
 
 interp tt.
@@ -18,7 +22,8 @@ interp (nabla G) :-
 interp (eq G G).
 
 interp A :-
-	prog A G,
+	prog A Gs,
+	memb (np _ G) Gs,
 	interp G.
 
 % Checker
@@ -47,7 +52,8 @@ check Cert (eq G G).
 
 check Cert A :-
 	unfold_expert Cert Cert',
-	prog A G,
+	prog A Gs,
+	memb (np _ G) Gs,
 	check Cert' G.
 
 % Program
@@ -55,87 +61,53 @@ check Cert A :-
 %% Natural numbers
 
 prog (is_nat N)
-     (or (and (eq N zero)
-              tt
-         )
-         (and (eq N (succ N'))
-              (is_nat N')
-         )
-     ).
+     [(np "zero" (eq N zero)),
+      (np "succ" (and (eq N (succ N'))
+                      (is_nat N')))].
 
 prog (leq X Y)
-     (or (and (eq X zero)
-              tt
-         )
-         (and (and (eq X (succ X')) (eq Y (succ Y')))
-              (leq X' Y')
-         )
-     ).
+     [(np "zero" (eq X zero)),
+      (np "succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
+                      (leq X' Y')))].
 
 prog (gt X Y)
-     (or (and (and (eq X (succ _)) (eq Y zero))
-              tt
-         )
-         (and (and (eq X (succ X')) (eq Y (succ Y')))
-              (gt X' Y')
-         )
-     ).
+     [(np "zero" (and (eq X (succ _)) (eq Y zero))),
+      (np "succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
+                      (gt X' Y')))].
 
 %% Lists
 
 prog (is_natlist L)
-     (or (and (eq L null)
-              tt
-         )
-         (and (eq L (cons Hd Tl))
-              (and (is_nat Hd) (is_natlist Tl))
-         )
-     ).
+     [(np "null" (eq L null)),
+      (np "succ" (and (eq L (cons Hd Tl))
+                 (and (is_nat Hd) (is_natlist Tl))))].
 
 prog (ord L)
-     (or (and (eq L null)
-              tt
-         )
-     (or (and (eq L (cons X null))
-              (is_nat X)
-         )
-         (and (eq L (cons X (cons Y Rs)))
-              (and (leq X Y) (ord (cons Y Rs)))
-         )
-     )).
+     [(np "ord0" (eq L null)),
+      (np "ord1" (and (eq L (cons X null))
+                      (is_nat X))),
+      (np "ord2" (and (eq L (cons X (cons Y Rs)))
+                      (and (leq X Y) (ord (cons Y Rs)))))].
 
 prog (ord_bad L)
-     (or (and (eq L null)
-              tt
-         )
-     (or (and (eq L (cons X null))
-              (is_nat X)
-         )
-         (and (eq L (cons X (cons Y Rs)))
-              (and (leq X Y) (ord_bad Rs))
-         )
-     )).
+     [(np "ord0" (eq L null)),
+      (np "ord1" (and (eq L (cons X null))
+                      (is_nat X))),
+      (np "ord2" (and (eq L (cons X (cons Y Rs)))
+                      (and (leq X Y) (ord_bad Rs))))].
 
 prog (ins X L O)
-     (or (and (and (eq L null) (eq O (cons X null)))
-              (is_nat X)
-         )
-     (or (and (and (eq L (cons Y Ys)) (eq O (cons X (cons Y Ys))))
-              (leq X Y)
-         )
-         (and (and (eq L (cons Y Ys)) (eq O (cons Y Rs)))
-              (and (gt X Y) (ins X Ys Rs))
-         )
-     )).
+     [(np "ins_null" (and (and (eq L null) (eq O (cons X null)))
+                          (is_nat X))),
+      (np "ins_leq"  (and (and (eq L (cons Y Ys)) (eq O (cons X (cons Y Ys))))
+                          (leq X Y))),
+      (np "ins_gt"   (and (and (eq L (cons Y Ys)) (eq O (cons Y Rs)))
+                          (and (gt X Y) (ins X Ys Rs))))].
 
 prog (append L1 K L2)
-     (or (and (and (eq L1 null) (eq K L2))
-              tt
-         )
-         (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
-              (append L K M)
-         )
-     ).
+     [(np "null" (and (eq L1 null) (eq K L2))),
+      (np "cons" (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
+                      (append L K M)))].
 
 % "Quick"-style FPC
 

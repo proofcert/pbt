@@ -1,5 +1,8 @@
 sig kernel.
 
+% Helpers
+type   memb   A -> list A -> o.
+
 % Formulas and their terms
 kind   prolog        type.
 type   tt            prolog.
@@ -8,8 +11,11 @@ type   some, nabla   (A -> prolog) -> prolog.
 type   eq            A -> A -> prolog.
 
 % Program and interpreter
-type   prog     prolog -> prolog -> o.
-type   interp   prolog -> o.
+kind   nprolog   type.
+type   np        string -> prolog -> nprolog.
+
+type   prog      prolog -> list nprolog -> o.
+type   interp    prolog -> o.
 
 % Certificates
 kind   choice        type.
