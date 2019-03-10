@@ -65,36 +65,37 @@ prog (is_nat N)
       (np "succ" (and (eq N (succ N'))
                       (is_nat N')))].
 
+%TODO: Check Elpi bug
 prog (leq X Y)
      [(np "zero" (eq X zero)),
       (np "succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
-                      (leq X' Y')))].
+                      (leq X' Y'))) ].
 
 prog (gt X Y)
      [(np "zero" (and (eq X (succ _)) (eq Y zero))),
       (np "succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
-                      (gt X' Y')))].
+                      (gt X' Y'))) ].
 
 %% Lists
 
 prog (is_natlist L)
      [(np "null" (eq L null)),
       (np "succ" (and (eq L (cons Hd Tl))
-                 (and (is_nat Hd) (is_natlist Tl))))].
+                 (and (is_nat Hd) (is_natlist Tl)))) ].
 
 prog (ord L)
      [(np "ord0" (eq L null)),
       (np "ord1" (and (eq L (cons X null))
                       (is_nat X))),
       (np "ord2" (and (eq L (cons X (cons Y Rs)))
-                      (and (leq X Y) (ord (cons Y Rs)))))].
+                      (and (leq X Y) (ord (cons Y Rs))))) ].
 
 prog (ord_bad L)
      [(np "ord0" (eq L null)),
       (np "ord1" (and (eq L (cons X null))
                       (is_nat X))),
       (np "ord2" (and (eq L (cons X (cons Y Rs)))
-                      (and (leq X Y) (ord_bad Rs))))].
+                      (and (leq X Y) (ord_bad Rs)))) ].
 
 prog (ins X L O)
      [(np "ins_null" (and (and (eq L null) (eq O (cons X null)))
@@ -102,12 +103,12 @@ prog (ins X L O)
       (np "ins_leq"  (and (and (eq L (cons Y Ys)) (eq O (cons X (cons Y Ys))))
                           (leq X Y))),
       (np "ins_gt"   (and (and (eq L (cons Y Ys)) (eq O (cons Y Rs)))
-                          (and (gt X Y) (ins X Ys Rs))))].
+                          (and (gt X Y) (ins X Ys Rs)))) ].
 
 prog (append L1 K L2)
      [(np "null" (and (eq L1 null) (eq K L2))),
       (np "cons" (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
-                      (append L K M)))].
+                      (append L K M))) ].
 
 % "Quick"-style FPC
 
