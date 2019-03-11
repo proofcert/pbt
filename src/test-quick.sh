@@ -22,12 +22,10 @@ RANDOM=42
 while read -u ${elpi[0]} line # -t 0? # lP: -d omitted
 do
 	echo ">> $line"
-	#regex="\"Toss a coin .* on \(\"([0-9]+)\",\"([0-9]+)\".*"
-	regex="\"Toss a coin .*"
+	regex="\"Select a number \[0-([0-9]+)\).*"
 	if [[ $line =~ $regex ]]; then
 		# Scale number to local weights (note the limited resolution!)
-		#choice=$(( (BASH_REMATCH[1] + BASH_REMATCH[2]) * RANDOM / 32767 > BASH_REMATCH[1] ))
-		choice=$(( RANDOM > 16383 ))
+		choice=$(( BASH_REMATCH[1] * RANDOM / 32767 ))
 		echo "<< $choice"
 		echo "$choice." >&${elpi[1]}
 	#else
