@@ -1,7 +1,8 @@
 sig kernel.
 
 % Helpers
-type   memb   A -> list A -> o.
+type   memb     A -> list A -> o.
+type   member   A -> list A -> o.
 
 % Formulas and their terms
 kind   prolog        type.
@@ -27,7 +28,7 @@ kind   cert            type.
 type   tt_expert       cert -> o.
 type   or_expert       cert -> cert -> choice -> o.
 type   and_expert      cert -> cert -> cert -> o.
-type   unfold_expert   cert -> cert -> o.
+type   unfold_expert   list nprolog -> cert -> cert -> string -> o.
 
 % Checker
 type   check   cert -> prolog -> o.
@@ -56,8 +57,14 @@ type   qsize     int -> int -> qbound.
 type   qgen      qbound -> cert.
 
 % A randomized "quick"-style FPC
-type   qtries    int -> cert.
-type   qrandom   cert.
+kind   qweight   type.
+type   qw        string -> int -> qweight.
+
+type   qtries    int -> list qweight -> cert.
+type   qrandom   list qweight -> cert.
+
+type   sum_weights     list nprolog -> list qweight -> int -> list qweight -> o.
+type   select_clause   int -> list qweight -> string -> o.
 
 % Certificate pairing
 type   pair   cert -> cert -> cert.

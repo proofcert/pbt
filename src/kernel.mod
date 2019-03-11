@@ -1,10 +1,18 @@
 module kernel.
 
-% Helpers
+%%%%%%%%%%%%%%%%%%%%%
+% Helper predicates %
+%%%%%%%%%%%%%%%%%%%%%
+
 memb X (X :: L).
 memb X (Y :: L) :- memb X L.
 
-% Interpreter
+member X (X :: L) :- !.
+member X (Y :: L) :- member X L.
+
+%%%%%%%%%%%%%%%
+% Interpreter %
+%%%%%%%%%%%%%%%
 
 interp tt.
 
@@ -26,7 +34,9 @@ interp A :-
 	memb (np _ G) Gs,
 	interp G.
 
-% Checker
+%%%%%%%%%%%
+% Checker %
+%%%%%%%%%%%
 
 check Cert tt :-
 	tt_expert Cert.
@@ -47,41 +57,48 @@ check Cert (or G1 G2) :-
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
-% (At the moment, as with nabla, no eq_expert.)
+% At the moment, as with nabla, no eq_expert.
 check Cert (eq G G).
 
+% The unfold rule lets the expert inspect the available clauses (this should
+% be done with great care, ideally limiting the information to a list of names,
+% set and immutable) and can restrict their selection by name.
 check Cert A :-
-	unfold_expert Cert Cert',
 	prog A Gs,
-	memb (np _ G) Gs,
+% term_to_string Gs GsStr, print "unfold to select:", print GsStr,
+	unfold_expert Gs Cert Cert' Id,
+	memb (np Id G) Gs,
+% term_to_string G GStr, print "unfold selected: ", print Id, print ", ", print GStr,
 	check Cert' G.
 
-% Program
+%%%%%%%%%%%
+% Program %
+%%%%%%%%%%%
 
 %% Natural numbers
 
 prog (is_nat N)
-     [(np "zero" (eq N zero)),
-      (np "succ" (and (eq N (succ N'))
-                      (is_nat N')))].
+     [(np "n_zero" (eq N zero)),
+      (np "n_succ" (and (eq N (succ N'))
+                        (is_nat N')))].
 
 %TODO: Check Elpi bug
 prog (leq X Y)
-     [(np "zero" (eq X zero)),
-      (np "succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
-                      (leq X' Y'))) ].
+     [(np "leq_zero" (eq X zero)),
+      (np "leq_succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
+                          (leq X' Y'))) ].
 
 prog (gt X Y)
-     [(np "zero" (and (eq X (succ _)) (eq Y zero))),
-      (np "succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
-                      (gt X' Y'))) ].
+     [(np "gt_zero" (and (eq X (succ _)) (eq Y zero))),
+      (np "gt_succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
+                         (gt X' Y'))) ].
 
 %% Lists
 
 prog (is_natlist L)
-     [(np "null" (eq L null)),
-      (np "succ" (and (eq L (cons Hd Tl))
-                 (and (is_nat Hd) (is_natlist Tl)))) ].
+     [(np "nl_null" (eq L null)),
+      (np "nl_cons" (and (eq L (cons Hd Tl))
+                    (and (is_nat Hd) (is_natlist Tl)))) ].
 
 prog (ord L)
      [(np "ord0" (eq L null)),
@@ -91,11 +108,11 @@ prog (ord L)
                       (and (leq X Y) (ord (cons Y Rs))))) ].
 
 prog (ord_bad L)
-     [(np "ord0" (eq L null)),
-      (np "ord1" (and (eq L (cons X null))
-                      (is_nat X))),
-      (np "ord2" (and (eq L (cons X (cons Y Rs)))
-                      (and (leq X Y) (ord_bad Rs)))) ].
+     [(np "ord0_bad" (eq L null)),
+      (np "ord1_bad" (and (eq L (cons X null))
+                          (is_nat X))),
+      (np "ord2_bad" (and (eq L (cons X (cons Y Rs)))
+                          (and (leq X Y) (ord_bad Rs)))) ].
 
 prog (ins X L O)
      [(np "ins_null" (and (and (eq L null) (eq O (cons X null)))
@@ -106,11 +123,13 @@ prog (ins X L O)
                           (and (gt X Y) (ins X Ys Rs)))) ].
 
 prog (append L1 K L2)
-     [(np "null" (and (eq L1 null) (eq K L2))),
-      (np "cons" (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
-                      (append L K M))) ].
+     [(np "app_null" (and (eq L1 null) (eq K L2))),
+      (np "app_cons" (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
+                          (append L K M))) ].
 
-% "Quick"-style FPC
+%%%%%%%%%%%%%%%%%%%%%
+% "Quick"-style FPC %
+%%%%%%%%%%%%%%%%%%%%%
 
 tt_expert (qgen (qheight _)).
 tt_expert (qgen (qsize In In)).
@@ -121,46 +140,86 @@ and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
 or_expert (qgen (qheight H)) (qgen (qheight H)) Ch.
 or_expert (qgen (qsize In Out)) (qgen (qsize In Out)) Ch.
 
-unfold_expert (qgen (qheight H)) (qgen (qheight H')) :-
+unfold_expert _ (qgen (qheight H)) (qgen (qheight H')) _ :-
 	H > 0,
 	H' is H - 1.
-unfold_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
+unfold_expert _ (qgen (qsize In Out)) (qgen (qsize In' Out)) _ :-
 	In > 0,
 	In' is In - 1.
 
-% Randomized "quick"-style FPC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Randomized "quick"-style FPC %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-tt_expert qrandom.
+%% Helper predicates
 
-and_expert qrandom qrandom qrandom.
+% For each possible named clause that can be selected, find its weight in the
+% table of generators (currently assuming the tables are exhaustive). Return the
+% sum of weights as well as the subset of rows in the table of generators
+% corresponding to the set of selectable clauses. In the second return argument,
+% the order of the rows matches their appearance in the full table of generators
+% (and in a first approximation, this is not done tail recursively).
+sum_weights [] _ 0 [].
+sum_weights ((np ClauseId _) :: Clauses) Weights Sum CleanWeights :-
+	% Assume a matching tuple is always present
+	member (qw ClauseId Weight) Weights,
+	sum_weights Clauses Weights SubTotal SubWeights,
+	Sum is SubTotal + Weight,
+	CleanWeights = (qw ClauseId Weight) :: SubWeights.
 
-or_expert qrandom qrandom Choice :-
-	print "Toss a coin \"0.\" or \"1.\": ",
-        read Random,
+% Take a lost of weighed clauses summing up to N = N1, N2, ... Nk; and a number
+% in the range [0, N). Select the clause according to the distribution:
+%   0 .. N1 - 1
+%   N1 .. (N2 - N1 - 1)
+%   ...
+select_clause Countdown ((qw ClauseId Weight) :: _) ClauseId :-
+	Countdown < Weight.
+select_clause Countdown ((qw _ Weight) :: Weights) ClauseId :-
+	Countdown >= Weight,
+	Countdown' is Countdown - Weight,
+	select_clause Countdown' Weights ClauseId.
+
+%% Random generation of data
+
+tt_expert (qrandom _).
+
+and_expert (qrandom Ws) (qrandom Ws) (qrandom Ws).
+
+or_expert (qrandom Ws) (qrandom Ws) Choice :-
 	(
-		(Random = 0, Choice = left);
-		(Random = 1, Choice = right)
+		Choice = left;
+		Choice = right
 	).
 
-unfold_expert qrandom qrandom.
+unfold_expert Gs (qrandom Ws) (qrandom Ws) Id :-
+	sum_weights Gs Ws Sum SubWs,
+	term_to_string Sum SumStr,
+	Msg is "Select a number [0-" ^ SumStr ^ "):",
+	print Msg,
+	read Random,
+	select_clause Random SubWs Id,
+	print Id.
 
-% (Iteration on number of tries, somewhat redundant encoding.)
+%% Iteration on number of tries (somewhat redundant encoding)
 
-and_expert (qtries N) qrandom qrandom :-
+and_expert (qtries N W) (qrandom W) (qrandom W) :-
 	N > 0.
-and_expert (qtries N) Cert Cert :-
+and_expert (qtries N W) Cert Cert' :-
 	N > 0,
 	N' is N - 1,
-	unfold_expert (qtries N') Cert.
+% print "Retrying",
+	and_expert (qtries N' W) Cert Cert'.
 
-unfold_expert (qtries N) qrandom :-
-	N > 0.
-unfold_expert (qtries N) Cert :-
+unfold_expert Gs (qtries N W) Cert Id :-
+	N > 0,
+	unfold_expert Gs (qrandom W) Cert Id.
+unfold_expert Gs (qtries N W) Cert Id :-
 	N > 0,
 	N' is N - 1,
-	unfold_expert (qtries N') Cert.
+% print "Retrying",
+	unfold_expert Gs (qtries N' W) Cert Id.
 
-% Certificate pairing
+%% Certificate pairing
 
 tt_expert (pair C1 C2) :-
 	tt_expert C1,
@@ -174,11 +233,14 @@ or_expert (pair C1 C2) (pair C1' C2') Ch :-
 	or_expert C1 C1' Ch,
 	or_expert C2 C2' Ch.
 
-unfold_expert (pair C1 C2) (pair C1' C2') :-
-	unfold_expert C1 C1',
-	unfold_expert C2 C2'.
+unfold_expert Gs (pair C1 C2) (pair C1' C2') Id :-
+	unfold_expert Gs C1 C1' Id,
+	unfold_expert Gs C2 C2' Id.
 
-% Tests
+%%%%%%%%%
+% Tests %
+%%%%%%%%%
+
 cex_ord_bad N L :-
 	check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
 	interp (ord_bad L),
@@ -193,9 +255,11 @@ cex_ord_bad N L :-
 %     1, 0,
 %     0
 cex_ord_bad_random N L :-
-	check (qtries 2) (and (is_nat N) (is_natlist L)),
+	Ws = [(qw "n_zero" 1), (qw "n_succ" 1),
+              (qw "nl_null" 1), (qw "nl_cons" 1)],
+	check (qtries 2 Ws) (and (is_nat N) (is_natlist L)),
 	term_to_string N NStr, term_to_string L LStr,
-	print NStr, print ", ", print LStr, print "\n",
+	print NStr, print ", ", print LStr,
 	interp (ord_bad L),
 	interp (ins N L O),
 	not (interp (ord_bad O)).
