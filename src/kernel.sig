@@ -12,10 +12,12 @@ type   some, nabla   (A -> prolog) -> prolog.
 type   eq            A -> A -> prolog.
 
 % Program and interpreter
+type   prog      prolog -> prolog -> o.
+
 kind   nprolog   type.
 type   np        string -> prolog -> nprolog.
+type   progs     prolog -> list nprolog -> o.
 
-type   prog      prolog -> list nprolog -> o.
 type   interp    prolog -> o.
 
 % Certificates
