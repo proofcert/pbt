@@ -80,21 +80,17 @@ check Cert A :-
 
 %% Natural numbers
 
+%TODO: Check Elpi bug on )]
 progs (is_nat N)
       [(np "n_zero" (eq N zero)),
        (np "n_succ" (and (eq N (succ N'))
                          (is_nat N')))].
 
-%TODO: Check Elpi bug
-progs (leq X Y)
-      [(np "leq_zero" (eq X zero)),
-       (np "leq_succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
-                           (leq X' Y'))) ].
+prog (leq zero _) tt.
+prog (leq (succ X) (succ Y)) (leq X Y).
 
-progs (gt X Y)
-      [(np "gt_zero" (and (eq X (succ _)) (eq Y zero))),
-       (np "gt_succ" (and (and (eq X (succ X')) (eq Y (succ Y')))
-                          (gt X' Y'))) ].
+prog (gt (succ _) zero) tt.
+prog (gt (succ X) (succ Y)) (gt X Y).
 
 %% Lists
 
@@ -103,32 +99,20 @@ progs (is_natlist L)
        (np "nl_cons" (and (eq L (cons Hd Tl))
                      (and (is_nat Hd) (is_natlist Tl)))) ].
 
-progs (ord L)
-      [(np "ord0" (eq L null)),
-       (np "ord1" (and (eq L (cons X null))
-                       (is_nat X))),
-       (np "ord2" (and (eq L (cons X (cons Y Rs)))
-                       (and (leq X Y) (ord (cons Y Rs))))) ].
+prog (ord null) tt.
+prog (ord (cons X null)) (is_nat X).
+prog (ord (cons X (cons Y Rs))) (and (leq X Y) (ord (cons Y Rs))).
 
-progs (ord_bad L)
-      [(np "ord0_bad" (eq L null)),
-       (np "ord1_bad" (and (eq L (cons X null))
-                           (is_nat X))),
-       (np "ord2_bad" (and (eq L (cons X (cons Y Rs)))
-                           (and (leq X Y) (ord_bad Rs)))) ].
+prog (ord_bad null) tt.
+prog (ord_bad (cons X null)) (is_nat X).
+prog (ord_bad (cons X (cons Y Rs))) (and (leq X Y) (ord_bad Rs)).
 
-progs (ins X L O)
-      [(np "ins_null" (and (and (eq L null) (eq O (cons X null)))
-                           (is_nat X))),
-       (np "ins_leq"  (and (and (eq L (cons Y Ys)) (eq O (cons X (cons Y Ys))))
-                           (leq X Y))),
-       (np "ins_gt"   (and (and (eq L (cons Y Ys)) (eq O (cons Y Rs)))
-                           (and (gt X Y) (ins X Ys Rs)))) ].
+prog (ins X null (cons X null)) (is_nat X).
+prog (ins X (cons Y Ys) (cons X (cons Y Ys))) (leq X Y).
+prog (ins X (cons Y Ys) (cons Y Rs)) (and (gt X Y) (ins X Ys Rs)).
 
-progs (append L1 K L2)
-      [(np "app_null" (and (eq L1 null) (eq K L2))),
-       (np "app_cons" (and (and (eq L1 (cons X L)) (eq L2 (cons X M)))
-                           (append L K M))) ].
+prog (append null L L) tt.
+prog (append (cons X L) K (cons X M)) (append L K M).
 
 %%%%%%%%%%%%%%%%%%%%%
 % "Quick"-style FPC %
