@@ -95,11 +95,35 @@ prog_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 
 %% Strict bounds
 
-tt_expert (qgen (qrange Mid Mid)).
+tt_expert (qgen (qidsize _)).
+and_expert (qgen (qidsize Max)) Cert Cert' :-
+	and_expert (qgen (qidsize' 0 Max)) Cert Cert'.
+prog_expert (qgen (qidsize Max)) Cert :-
+	prog_expert (qgen (qidsize' 0 Max)) Cert.
 
-and_expert (qgen (qrange Max Min)) (qgen (qrange Max Mid)) (qgen (qrange Mid Min)).
+tt_expert (qgen (qidsize' _ _)).
+and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
+	Size < Max,
+	Size' is Size + 1,
+	and_expert (qgen (qrgsize Size' 0)) Cert Cert'.
+prog_expert (qgen (qidsize' Size Max)) Cert :-
+	Size < Max,
+	Size' is Size + 1,
+	prog_expert (qgen (qrgsize Size' 0)) Cert.
+and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
+	Size < Max,
+	Size' is Size + 1,
+	and_expert (qgen (qidsize' Size' Max)) Cert Cert'.
+prog_expert (qgen (qidsize' Size Max)) Cert :-
+	Size < Max,
+	Size' is Size + 1,
+	prog_expert (qgen (qidsize' Size' Max)) Cert.
 
-prog_expert (qgen (qrange (succ Max) Min)) (qgen (qrange Max Min)).
+tt_expert (qgen (qrgsize Mid Mid)).
+and_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max Mid)) (qgen (qrgsize Mid Min)).
+prog_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) :-
+	Max > 0,
+	Max' is Max - 1.
 
 % Certificate pairing
 

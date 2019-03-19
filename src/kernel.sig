@@ -50,9 +50,9 @@ type   qgen      qbound -> cert.
 
 % An integer strict size (e.g., 4) becomes a range Z .. S S S S Z, whose
 % subtraction denotes exactly the size of a subterm to be generated.
-type   qiter     int -> qbound.
-type   qstrict   int -> qbound.
-type   qrange    nat -> nat -> qbound.
+type   qidsize    int -> qbound.
+type   qidsize'   int -> int -> qbound.
+type   qrgsize    int -> int -> qbound.
 
 % Certificate pairing
 type   pair   cert -> cert -> cert.
