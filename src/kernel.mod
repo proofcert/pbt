@@ -93,6 +93,14 @@ prog_expert (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 	In > 0,
 	In' is In - 1.
 
+%% Strict bounds
+
+tt_expert (qgen (qrange Mid Mid)).
+
+and_expert (qgen (qrange Max Min)) (qgen (qrange Max Mid)) (qgen (qrange Mid Min)).
+
+prog_expert (qgen (qrange (succ Max) Min)) (qgen (qrange Max Min)).
+
 % Certificate pairing
 
 tt_expert (pair C1 C2) :-
