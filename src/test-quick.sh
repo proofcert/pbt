@@ -16,8 +16,12 @@ coproc elpi (
 	elpi $1 -exec "$2."
 ) # No redirects needed
 
-# Seed random number generator (TODO parameterize, use better generator)
-RANDOM=42
+# Seed random number generator (TODO use better generator)
+if [[ $3 == 'date' ]]; then
+	RANDOM=date +%s
+else
+	RANDOM=42
+fi
 # For each standard-format query, parse and generate weighed choice
 while read -u ${elpi[0]} line # -t 0? # lP: -d omitted
 do
