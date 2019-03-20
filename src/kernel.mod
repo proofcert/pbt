@@ -125,6 +125,49 @@ prog_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) :-
 	Max > 0,
 	Max' is Max - 1.
 
+%% Similarly for height. Exact bounds are inefficient in that there is no
+%% immediate *and* simple way to cooordinate both sides of a conjunct so that at
+%% least one reaches the required height. An easy workaround leads to some
+%% duplication, which may be curbed by pairing with a size bound that drives
+%% generation. The coordination of the increase in both kinds of bounds is also
+%% a subject of further elaboration.
+
+tt_expert (qgen (qidheight _)).
+and_expert (qgen (qidheight Max)) Cert Cert' :-
+	and_expert (qgen (qidheight' 0 Max)) Cert Cert'.
+prog_expert (qgen (qidheight Max)) Cert :-
+	prog_expert (qgen (qidheight' 0 Max)) Cert.
+
+tt_expert (qgen (qidheight' _ _)).
+and_expert (qgen (qidheight' Size Max)) Cert Cert' :-
+	Size < Max,
+	Size' is Size + 1,
+	and_expert (qgen (qrgheight Size' 0)) Cert Cert'.
+prog_expert (qgen (qidheight' Size Max)) Cert :-
+	Size < Max,
+	Size' is Size + 1,
+	prog_expert (qgen (qrgheight Size' 0)) Cert.
+and_expert (qgen (qidheight' Size Max)) Cert Cert' :-
+	Size < Max,
+	Size' is Size + 1,
+	and_expert (qgen (qidheight' Size' Max)) Cert Cert'.
+prog_expert (qgen (qidheight' Size Max)) Cert :-
+	Size < Max,
+	Size' is Size + 1,
+	prog_expert (qgen (qidheight' Size' Max)) Cert.
+
+tt_expert (qgen (qrgheight Min Min)).
+and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qheight Max)).
+and_expert (qgen (qrgheight Max Min)) (qgen (qheight Max)) (qgen (qrgheight Max Min)).
+prog_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) :-
+	Max > 0,
+	Max' is Max - 1.
+
+min A B A :-
+	A <= B.
+min A B B :-
+	A > B.
+
 % Certificate pairing
 
 tt_expert (pair C1 C2) :-
