@@ -157,16 +157,16 @@ prog_expert (qgen (qidheight' Size Max)) Cert :-
 	prog_expert (qgen (qidheight' Size' Max)) Cert.
 
 tt_expert (qgen (qrgheight Min Min)).
-and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qheight Max)).
-and_expert (qgen (qrgheight Max Min)) (qgen (qheight Max)) (qgen (qrgheight Max Min)).
+and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)).
+and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qheight Max')) :-
+	Max > 0,
+	Max' is Max - 1.
+and_expert (qgen (qrgheight Max Min)) (qgen (qheight Max')) (qgen (qrgheight Max Min)) :-
+	Max > 0,
+	Max' is Max - 1.
 prog_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) :-
 	Max > 0,
 	Max' is Max - 1.
-
-min A B A :-
-	A <= B.
-min A B B :-
-	A > B.
 
 % Certificate pairing
 
