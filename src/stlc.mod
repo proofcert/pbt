@@ -2,21 +2,78 @@ module stlc.
 
 %% Lambda-terms
 
+prog (is_ty T)
+     (or (and (eq T intTy)
+              tt
+         )
+     (or (and (eq T (funTy Ty1 Ty2))
+              (and (is_ty Ty1) (is_ty Ty2))
+         )
+         (and (eq T listTy)
+              tt
+         )
+     )).
+/*
 prog (is_ty intTy) (tt).
 prog (is_ty (funTy Ty1 Ty2)) (and (is_ty Ty1) (is_ty Ty2)).
 prog (is_ty listTy) (tt).
+*/
 
+% (Symbolic constants on one side, integer constants on the other)
+prog (is_cnt C)
+     (or
+     (or
+     (or (and (eq C cns)
+              tt
+         )
+         (and (eq C hd)
+              tt
+         )
+     )
+     (or (and (eq C tl)
+              tt
+         )
+         (and (eq C nl)
+              tt
+         )
+     ))
+         (and (eq C (toInt I))
+              (is_nat I)
+         )
+     ).
+/*
 prog (is_cnt cns) (tt).
 prog (is_cnt hd) (tt).
 prog (is_cnt tl) (tt).
 prog (is_cnt nl) (tt).
 prog (is_cnt (toInt I)) (is_nat I).
+*/
 
 % Simple generation
+% (Equiprobable, with 50% chance of terminal nodes)
+
+prog (is_exp E)
+     (or
+     (or (and (eq E (c Cnt))
+              (is_cnt Cnt)
+         )
+         (and (eq E (app Exp1 Exp2))
+              (and (is_exp Exp1) (is_exp Exp2))
+         )
+     )
+     (or (and (eq E (lam ExpX Ty))
+              (and (nabla x\ is_exp (ExpX x)) (is_ty Ty))
+         )
+         (and (eq E error)
+              tt
+         )
+     )).
+/*
 prog (is_exp (c Cnt)) (is_cnt Cnt).
 prog (is_exp (app Exp1 Exp2)) (and (is_exp Exp1) (is_exp Exp2)).
 prog (is_exp (lam ExpX Ty)) (and (nabla x\ is_exp (ExpX x)) (is_ty Ty)).
 prog (is_exp error) (tt).
+*/
 
 % Maintaining a context of lambda variables
 prog (is_exp' _ (c Cnt)) (is_cnt Cnt).

@@ -20,3 +20,11 @@ cexpres E E' T :-
 	interp (step E E'),
 	interp (wt null E T),
 	not (interp (wt null E' T)).
+
+% Note that pairing could be used to bound the size of random terms
+qcprog :-
+	check (qtries 1000) (is_exp E),
+	interp (wt null E T),
+	not (interp (progress E)),
+	term_to_string E Estr, print "E =", print Estr,
+	term_to_string T Tstr, print "T =", print Tstr.
