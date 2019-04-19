@@ -16,7 +16,9 @@ b3c W N :-
 	test (qgen (qheight 5)) W N.
 
 b3c' W N :-
-	test (qtries 1000) W N.
+	Ws = [(qw "ab-a" 1), (qw "ab-b" 1),
+	      (qw "abl-null" 1), (qw "abl-cons" 1) ],
+	test (qtries 1000 Ws) W N.
 
 qc :-
 	b3c' W N,

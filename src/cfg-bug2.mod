@@ -16,7 +16,9 @@ b2c W N1 N2 :-
 	test (qgen (qheight 2)) W N1 N2.
 
 b2c' W N1 N2 :-
-	test (qtries 2) W N1 N2.
+	Ws = [(qw "ab-a" 1), (qw "ab-b" 1),
+	      (qw "abl-null" 1), (qw "abl-cons" 1) ],
+	test (qtries 2 Ws) W N1 N2.
 
 qc :-
 	b2c' W N1 N2,
