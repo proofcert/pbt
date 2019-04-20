@@ -23,7 +23,12 @@ cexpres E E' T :-
 
 % Note that pairing could be used to bound the size of random terms
 qcprog :-
-	check (qtries 1000) (is_exp E),
+
+	Ws = [(qw "n_zero" 1), (qw "n_succ" 1),
+              (qw "ty-int" 1), (qw "ty-list" 1), (qw "ty-fun" 1),
+              (qw "cnt-cns" 1), (qw "cnt-hd" 1), (qw "cnt-tl" 1), (qw "cnt-nl" 1), (qw "cnt-int" 1),
+              (qw "exp-cnt" 1), (qw "exp-app" 1), (qw "exp-lam" 1), (qw "exp-err" 1) ],
+	check (qtries 1500 Ws) (is_exp E),
 	interp (wt null E T),
 	not (interp (progress E)),
 	term_to_string E Estr, print "E =", print Estr,
