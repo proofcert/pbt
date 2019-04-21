@@ -21,6 +21,7 @@ b3c' W N :-
 	test (qtries 1000 Ws) W N.
 
 qc :-
+	random.init 42,
 	b3c' W N,
 	term_to_string W Wstr, print "W =", print Wstr,
 	term_to_string N Nstr, print "N =", print Nstr.

@@ -255,10 +255,13 @@ or_expert (qrandom Ws) (qrandom Ws) Choice :-
 
 unfold_expert Gs (qrandom Ws) (qrandom Ws) Id :-
 	sum_weights Gs Ws Sum SubWs,
-	term_to_string Sum SumStr,
-	Msg is "Select a number [0-" ^ SumStr ^ "):",
-	print Msg,
-	read Random,
+%	term_to_string Sum SumStr,
+%	Msg is "Select a number [0-" ^ SumStr ^ "):",
+%	print Msg,
+%%	read Random,
+	random.int Sum Random,
+%	term_to_string Random RandomStr,
+%	print Random,
 	select_clause Random SubWs Id,
 	print Id.
 
@@ -317,9 +320,10 @@ cex_ord_bad N L :-
 %     1, 0,
 %     0
 cex_ord_bad_random N L :-
+	random.init 42,
 	Ws = [(qw "n_zero" 1), (qw "n_succ" 1),
               (qw "nl_null" 1), (qw "nl_cons" 1)],
-	check (qtries 2 Ws) (and (is_nat N) (is_natlist L)),
+	check (qtries 100 Ws) (and (is_nat N) (is_natlist L)),
 	term_to_string N NStr, term_to_string L LStr,
 	print NStr, print ", ", print LStr,
 	interp (ord_bad L),

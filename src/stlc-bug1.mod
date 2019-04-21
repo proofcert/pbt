@@ -23,7 +23,7 @@ cexpres E E' T :-
 
 % Note that pairing could be used to bound the size of random terms
 qcprog :-
-
+	random.init 42,
 	Ws = [(qw "n_zero" 1), (qw "n_succ" 1),
               (qw "ty-int" 1), (qw "ty-list" 1), (qw "ty-fun" 1),
               (qw "cnt-cns" 1), (qw "cnt-hd" 1), (qw "cnt-tl" 1), (qw "cnt-nl" 1), (qw "cnt-int" 1),
