@@ -209,6 +209,10 @@ prog_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) :-
 	Max > 0,
 	Max' is Max - 1.
 
+%% Existential expert
+
+some_expert (qgen Bound) (qgen Bound) T.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Randomized "quick"-style FPC %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,7 +288,14 @@ unfold_expert Gs (qtries N W) Cert Id :-
 % print "Retrying",
 	unfold_expert Gs (qtries N' W) Cert Id.
 
-%% Certificate pairing
+%% Existential expert
+
+some_expert (qtries N W) (qtries N W) T.
+some_expert (qrandom W) (qrandom W) T.
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Certificate pairing %
+%%%%%%%%%%%%%%%%%%%%%%%
 
 tt_expert (pair C1 C2) :-
 	tt_expert C1,
@@ -297,6 +308,10 @@ and_expert (pair C1 C2) (pair C1' C2') (pair C1'' C2'') :-
 or_expert (pair C1 C2) (pair C1' C2') Ch :-
 	or_expert C1 C1' Ch,
 	or_expert C2 C2' Ch.
+
+some_expert (pair C1 C2) (pair C1' C2') T :-
+	some_expert C1 C1' T,
+	some_expert C2 C2' T.
 
 unfold_expert Gs (pair C1 C2) (pair C1' C2') Id :-
 	unfold_expert Gs C1 C1' Id,
