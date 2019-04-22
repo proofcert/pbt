@@ -85,6 +85,10 @@ type   qrandom   list qweight -> cert.
 type   sum_weights     list nprolog -> list qweight -> int -> list qweight -> o.
 type   select_clause   int -> list qweight -> string -> o.
 
+% A shrinker FPC
+type   qshrink    A -> cert -> cert.
+type   qcompute   cert.
+
 % Certificate pairing
 type   pair   cert -> cert -> cert.
 

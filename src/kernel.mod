@@ -306,6 +306,26 @@ unfold_expert Gs (qtries N W) Cert Id :-
 some_expert (qtries N W) (qtries N W) T.
 some_expert (qrandom W) (qrandom W) T.
 
+%%%%%%%%%%%%%
+% Shrinking %
+%%%%%%%%%%%%%
+
+tt_expert qcompute.
+
+and_expert qcompute qcompute qcompute.
+
+or_expert qcompute qcompute Choice :-
+	(
+		Choice = left;
+		Choice = right
+	).
+
+unfold_expert _Gs qcompute qcompute _Id.
+
+some_expert (qshrink T Cert) Cert T.
+some_expert (qshrink T Cert) Cert T' :-
+	shrink T T'.
+
 %%%%%%%%%%%%%%%%%%%%%%%
 % Certificate pairing %
 %%%%%%%%%%%%%%%%%%%%%%%
