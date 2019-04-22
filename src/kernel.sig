@@ -31,27 +31,12 @@ type   tt_expert       cert -> o.
 type   or_expert       cert -> cert -> choice -> o.
 type   and_expert      cert -> cert -> cert -> o.
 type   some_expert     cert -> cert -> A -> o.
+type   prog_expert     cert -> cert  -> o.
 type   unfold_expert   list nprolog -> cert -> cert -> string -> o.
 
 % Checker
 type   check   cert -> prolog -> o.
 
-% A sample program
-kind   nat      type.
-type   zero     nat.
-type   succ     nat -> nat.
-type   is_nat   nat -> prolog.
-type   leq      nat -> nat -> prolog.
-type   gt       nat -> nat -> prolog.
-
-kind   lst          type -> type.
-type   null         lst A.
-type   cons         A -> lst A -> lst A.
-type   is_natlist   lst nat -> prolog.
-type   ord          lst nat -> prolog.
-type   ord_bad      lst nat -> prolog.
-type   ins          nat -> lst nat -> lst nat -> prolog.
-type   append       lst A -> lst A -> lst A -> prolog.
 
 % A "quick"-style FP
 kind   qbound    type.
@@ -85,9 +70,13 @@ type   select_clause   int -> list qweight -> string -> o.
 % Certificate pairing
 type   pair   cert -> cert -> cert.
 
-% Tests
-type   cex_ord_bad   nat -> lst nat -> o.
+% the following  should not be here, but in some datatype file
 
-type   cex_ord_bad_random   nat -> lst nat -> o.
+kind   lst          type -> type.
+type   null         lst A.
+type   cons         A -> lst A -> lst A.
 
-type   main   o.
+
+kind   nat      type.
+type   zero     nat.
+type   succ     nat -> nat.

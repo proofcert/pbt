@@ -74,48 +74,9 @@ check Cert A :-
 % term_to_string G GStr, print "unfold selected: ", print Id, print ", ", print GStr,
 	check Cert' G.
 
-%%%%%%%%%%%
-% Program %
-%%%%%%%%%%%
-
-%% Natural numbers
-
-%TODO: Check Elpi bug on )]
-progs (is_nat N)
-      [(np "n_zero" (eq N zero)),
-       (np "n_succ" (and (eq N (succ N'))
-                         (is_nat N')))].
-
-prog (leq zero _) tt.
-prog (leq (succ X) (succ Y)) (leq X Y).
-
-prog (gt (succ _) zero) tt.
-prog (gt (succ X) (succ Y)) (gt X Y).
-
-%% Lists
-
-progs (is_natlist L)
-      [(np "nl_null" (eq L null)),
-       (np "nl_cons" (and (eq L (cons Hd Tl))
-                     (and (is_nat Hd) (is_natlist Tl)))) ].
-
-prog (ord null) tt.
-prog (ord (cons X null)) (is_nat X).
-prog (ord (cons X (cons Y Rs))) (and (leq X Y) (ord (cons Y Rs))).
-
-prog (ord_bad null) tt.
-prog (ord_bad (cons X null)) (is_nat X).
-prog (ord_bad (cons X (cons Y Rs))) (and (leq X Y) (ord_bad Rs)).
-
-prog (ins X null (cons X null)) (is_nat X).
-prog (ins X (cons Y Ys) (cons X (cons Y Ys))) (leq X Y).
-prog (ins X (cons Y Ys) (cons Y Rs)) (and (gt X Y) (ins X Ys Rs)).
-
-prog (append null L L) tt.
-prog (append (cons X L) K (cons X M)) (append L K M).
 
 %%%%%%%%%%%%%%%%%%%%%
-% "Quick"-style FPC %
+% Exhaustive enumeration FPC %
 %%%%%%%%%%%%%%%%%%%%%
 
 tt_expert (qgen (qheight _)).
@@ -133,6 +94,11 @@ unfold_expert _ (qgen (qheight H)) (qgen (qheight H')) _ :-
 unfold_expert _ (qgen (qsize In Out)) (qgen (qsize In' Out)) _ :-
 	In > 0,
 	In' is In - 1.
+
+%% Existential expert
+
+some_expert (qgen Bound) (qgen Bound) T.
+
 
 %% Strict bounds
 
@@ -209,9 +175,6 @@ prog_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) :-
 	Max > 0,
 	Max' is Max - 1.
 
-%% Existential expert
-
-some_expert (qgen Bound) (qgen Bound) T.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Randomized "quick"-style FPC %
@@ -257,6 +220,7 @@ or_expert (qrandom Ws) (qrandom Ws) Choice :-
 		Choice = right
 	).
 
+% only for elpi
 unfold_expert Gs (qrandom Ws) (qrandom Ws) Id :-
 	sum_weights Gs Ws Sum SubWs,
 %	term_to_string Sum SumStr,
@@ -317,33 +281,3 @@ unfold_expert Gs (pair C1 C2) (pair C1' C2') Id :-
 	unfold_expert Gs C1 C1' Id,
 	unfold_expert Gs C2 C2' Id.
 
-%%%%%%%%%
-% Tests %
-%%%%%%%%%
-
-cex_ord_bad N L :-
-	check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
-	interp (ord_bad L),
-	interp (ins N L O),
-	not (interp (ord_bad O)).
-
-% N = zero
-%     0
-% L = [zero, succ zero, zero | null]
-%     1, 0,
-%     1, 1, 0,
-%     1, 0,
-%     0
-cex_ord_bad_random N L :-
-	random.init 42,
-	Ws = [(qw "n_zero" 1), (qw "n_succ" 1),
-              (qw "nl_null" 1), (qw "nl_cons" 1)],
-	check (qtries 100 Ws) (and (is_nat N) (is_natlist L)),
-	term_to_string N NStr, term_to_string L LStr,
-	print NStr, print ", ", print LStr,
-	interp (ord_bad L),
-	interp (ins N L O),
-	not (interp (ord_bad O)).
-
-main :-
-	cex_ord_bad_random N L.
