@@ -103,6 +103,7 @@ progs (is_natlist L)
                      (and (is_nat Hd) (is_natlist Tl)))) ].
 
 shrink (cons Hd Tl) Tl.
+shrink (cons Hd Tl) Tl' :- shrink Tl Tl'.
 shrink (cons Hd Tl) (cons Hd' Tl) :- shrink Hd Hd'.
 shrink (cons Hd Tl) (cons Hd Tl') :- shrink Tl Tl'.
 shrink (cons Hd Tl) (cons Hd' Tl') :- shrink Hd Hd', shrink Tl Tl'.
