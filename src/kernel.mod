@@ -57,6 +57,10 @@ check Cert (or G1 G2) :-
 		(Choice = right, check Cert' G2)
 	).
 
+check Cert (some G) :-
+	some_expert Cert Cert' T,
+	check Cert' (G T).
+
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
