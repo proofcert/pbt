@@ -86,6 +86,9 @@ progs (is_nat N)
        (np "n_succ" (and (eq N (succ N'))
                          (is_nat N')))].
 
+shrink (succ N) N.
+shrink (succ N) N' :- shrink N N'.
+
 prog (leq zero _) tt.
 prog (leq (succ X) (succ Y)) (leq X Y).
 
@@ -98,6 +101,11 @@ progs (is_natlist L)
       [(np "nl_null" (eq L null)),
        (np "nl_cons" (and (eq L (cons Hd Tl))
                      (and (is_nat Hd) (is_natlist Tl)))) ].
+
+shrink (cons Hd Tl) Tl.
+shrink (cons Hd Tl) (cons Hd' Tl) :- shrink Hd Hd'.
+shrink (cons Hd Tl) (cons Hd Tl') :- shrink Tl Tl'.
+shrink (cons Hd Tl) (cons Hd' Tl') :- shrink Hd Hd', shrink Tl Tl'.
 
 prog (ord null) tt.
 prog (ord (cons X null)) (is_nat X).

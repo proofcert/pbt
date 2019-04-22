@@ -20,6 +20,9 @@ type   progs     prolog -> list nprolog -> o.
 
 type   interp    prolog -> o.
 
+% Term shrinkers
+type   shrink    A -> A -> o.
+
 % Certificates
 kind   choice        type.
 type   left, right   choice.
