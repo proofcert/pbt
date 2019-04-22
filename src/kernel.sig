@@ -94,7 +94,7 @@ type   pair   cert -> cert -> cert.
 
 % Tests
 type   cex_ord_bad   nat -> lst nat -> o.
-
 type   cex_ord_bad_random   nat -> lst nat -> o.
+type   cex_ord_bad_shrink   nat -> lst nat -> o.
 
 type   main   o.
