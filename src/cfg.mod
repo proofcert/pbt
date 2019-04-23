@@ -9,6 +9,9 @@ progs (is_ablist L)
        (np "abl-cons" (and (eq L (cons Hd Tl))
                            (and (is_ab Hd) (is_ablist Tl)))) ].
 
+shrink (cons Hd Tl) Tl.
+shrink (cons Hd Tl) (cons Hd Tl') :- shrink Tl Tl'.
+
 prog (neq a b) tt.
 prog (neq b a) tt.
 
