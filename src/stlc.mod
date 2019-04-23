@@ -9,7 +9,9 @@ progs (is_ty T)
                           (and (is_ty Ty1) (is_ty Ty2)))) ].
 
 shrink (funTy Ty1 _) Ty1.
+shrink (funTy Ty1 _) Ty1' :- shrink Ty1 Ty1'.
 shrink (funTy _ Ty2) Ty2.
+shrink (funTy _ Ty2) Ty2' :- shrink Ty2 Ty2'.
 shrink (funTy Ty1 Ty2) (funTy Ty1' Ty2) :- shrink Ty1 Ty1'.
 shrink (funTy Ty1 Ty2) (funTy Ty1 Ty2') :- shrink Ty2 Ty2'.
 shrink (funTy Ty1 Ty2) (funTy Ty1' Ty2') :- shrink Ty1 Ty1', shrink Ty2 Ty2'.
@@ -36,7 +38,9 @@ progs (is_exp E)
 shrink (c Cnt) (c Cnt') :- shrink Cnt Cnt.
 
 shrink (app Exp1 _) Exp1.
+shrink (app Exp1 _) Exp1' :- shrink Exp1 Exp1'.
 shrink (app _ Exp2) Exp2.
+shrink (app _ Exp2) Exp2' :- shrink Exp2 Exp2'.
 shrink (app Exp1 Exp2) (app Exp1' Exp2) :- shrink Exp1 Exp1'.
 shrink (app Exp1 Exp2) (app Exp1 Exp2') :- shrink Exp2 Exp2'.
 shrink (app Exp1 Exp2) (app Exp1' Exp2') :- shrink Exp1 Exp1', shrink Exp2 Exp2'.
