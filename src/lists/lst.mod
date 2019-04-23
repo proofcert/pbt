@@ -1,6 +1,20 @@
 module lst.
 accumulate kernel.
 
+
+%%%%%%% shrinkers
+
+shrink (succ N) N.
+shrink (succ N) N' :- shrink N N'.
+
+
+shrink (cons Hd Tl) Tl.
+shrink (cons Hd Tl) Tl' :- shrink Tl Tl'.
+shrink (cons Hd Tl) (cons Hd' Tl) :- shrink Hd Hd'.
+shrink (cons Hd Tl) (cons Hd Tl') :- shrink Tl Tl'.
+shrink (cons Hd Tl) (cons Hd' Tl') :- shrink Hd Hd', shrink Tl Tl'.
+
+
 %%%%%%%%%%%
 % Program %
 %%%%%%%%%%%

@@ -69,11 +69,18 @@ nocex_rev  L :-
 
 
 
+cex_ord_bad_shrink N L :-
+	check (qshrink zero (
+               qshrink (cons zero (cons (succ (succ zero)) (cons zero null)))
+               qcompute))
+              (some N'\ some L'\ and (and (eq N N') (eq L L'))
+                                     (and (is_nat N') (is_natlist L'))),
+	interp (ord_bad L),
+	interp (ins N L O),
+	not (interp (ord_bad O)).
 
 
-% main :-
-%      read G,
-%      G.
+
 
 main  :-
 	cex_ord_bad_random _N _L.

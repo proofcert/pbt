@@ -18,3 +18,6 @@ prog (count X (cons X Xs) (succ N)) (count X Xs N).
 prog (count X (cons Y Xs) N) (and (neq X Y) (count X Xs N)).
 prog (append null L L) tt.
 prog (append (cons X L) K (cons X M)) (append L K M).
+
+shrink (cons Hd Tl) Tl.
+shrink (cons Hd Tl) (cons Hd Tl') :- shrink Tl Tl'.

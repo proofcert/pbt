@@ -20,6 +20,9 @@ type   progs     prolog -> list nprolog -> o.
 
 type   interp    prolog -> o.
 
+% Term shrinkers
+type   shrink    A -> A -> o.
+
 % Certificates
 kind   choice        type.
 type   left, right   choice.
@@ -67,15 +70,19 @@ type   qrandom   list qweight -> cert.
 type   sum_weights     list nprolog -> list qweight -> int -> list qweight -> o.
 type   select_clause   int -> list qweight -> string -> o.
 
+% A shrinker FPC
+type   qshrink    A -> cert -> cert.
+type   qcompute   cert.
+
 % Certificate pairing
 type   pair   cert -> cert -> cert.
+
 
 % the following  should not be here, but in some datatype file
 
 kind   lst          type -> type.
 type   null         lst A.
 type   cons         A -> lst A -> lst A.
-
 
 kind   nat      type.
 type   zero     nat.
