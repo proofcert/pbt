@@ -78,12 +78,9 @@ check Cert A :-
 % term_to_string G GStr, print "unfold selected: ", print Id, print ", ", print GStr,
 	check Cert' G.
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Exhaustive enumeration FPC %
-%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 tt_expert (qgen (qheight _)).
 tt_expert (qgen (qsize In In)).
@@ -111,30 +108,30 @@ some_expert (qgen Bound) (qgen Bound) T.
 tt_expert (qgen (qidsize _)).
 and_expert (qgen (qidsize Max)) Cert Cert' :-
 	and_expert (qgen (qidsize' 0 Max)) Cert Cert'.
-prog_expert (qgen (qidsize Max)) Cert :-
-	prog_expert (qgen (qidsize' 0 Max)) Cert.
+unfold_expert Gs (qgen (qidsize Max)) Cert Id :-
+	unfold_expert Gs (qgen (qidsize' 0 Max)) Cert Id.
 
 tt_expert (qgen (qidsize' _ _)).
 and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
 	and_expert (qgen (qrgsize Size' 0)) Cert Cert'.
-prog_expert (qgen (qidsize' Size Max)) Cert :-
+unfold_expert Gs (qgen (qidsize' Size Max)) Cert Id :-
 	Size < Max,
 	Size' is Size + 1,
-	prog_expert (qgen (qrgsize Size' 0)) Cert.
+	unfold_expert Gs (qgen (qrgsize Size' 0)) Cert Id.
 and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
 	and_expert (qgen (qidsize' Size' Max)) Cert Cert'.
-prog_expert (qgen (qidsize' Size Max)) Cert :-
+unfold_expert Gs (qgen (qidsize' Size Max)) Cert Id :-
 	Size < Max,
 	Size' is Size + 1,
-	prog_expert (qgen (qidsize' Size' Max)) Cert.
+	unfold_expert Gs (qgen (qidsize' Size' Max)) Cert Id.
 
 tt_expert (qgen (qrgsize Mid Mid)).
 and_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max Mid)) (qgen (qrgsize Mid Min)).
-prog_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) :-
+unfold_expert _ (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) _ :-
 	Max > 0,
 	Max' is Max - 1.
 
@@ -148,26 +145,26 @@ prog_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) :-
 tt_expert (qgen (qidheight _)).
 and_expert (qgen (qidheight Max)) Cert Cert' :-
 	and_expert (qgen (qidheight' 0 Max)) Cert Cert'.
-prog_expert (qgen (qidheight Max)) Cert :-
-	prog_expert (qgen (qidheight' 0 Max)) Cert.
+unfold_expert Gs (qgen (qidheight Max)) Cert Id :-
+	unfold_expert Gs (qgen (qidheight' 0 Max)) Cert Id.
 
 tt_expert (qgen (qidheight' _ _)).
 and_expert (qgen (qidheight' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
 	and_expert (qgen (qrgheight Size' 0)) Cert Cert'.
-prog_expert (qgen (qidheight' Size Max)) Cert :-
+unfold_expert Gs (qgen (qidheight' Size Max)) Cert Id :-
 	Size < Max,
 	Size' is Size + 1,
-	prog_expert (qgen (qrgheight Size' 0)) Cert.
+	unfold_expert Gs (qgen (qrgheight Size' 0)) Cert Id.
 and_expert (qgen (qidheight' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
 	and_expert (qgen (qidheight' Size' Max)) Cert Cert'.
-prog_expert (qgen (qidheight' Size Max)) Cert :-
+unfold_expert Gs (qgen (qidheight' Size Max)) Cert Id :-
 	Size < Max,
 	Size' is Size + 1,
-	prog_expert (qgen (qidheight' Size' Max)) Cert.
+	unfold_expert Gs (qgen (qidheight' Size' Max)) Cert Id.
 
 tt_expert (qgen (qrgheight Min Min)).
 and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)).
@@ -177,10 +174,9 @@ and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qheight 
 and_expert (qgen (qrgheight Max Min)) (qgen (qheight Max')) (qgen (qrgheight Max Min)) :-
 	Max > 0,
 	Max' is Max - 1.
-prog_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) :-
+unfold_expert _ (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) _ :-
 	Max > 0,
 	Max' is Max - 1.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Randomized "quick"-style FPC %
