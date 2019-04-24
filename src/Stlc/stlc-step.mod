@@ -1,5 +1,6 @@
 module stlc-step.
 
+% we should move it to progs
 prog (step (app (c hd) (app (app (c cns) X) XS)) X) (and (is_value X) (is_value XS)).
 prog (step (app (c tl) (app (app (c cns) X) XS)) XS) (and (is_value X) (is_value XS)).
 prog (step (app (lam M T) V) (M V)) (is_value V). % W = M V, dynamic pattern OK?

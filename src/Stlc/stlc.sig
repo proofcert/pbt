@@ -14,7 +14,7 @@ type   toInt             nat -> cnt.
 type   intTy    ty.
 type   funTy    ty -> ty -> ty.
 type   listTy   ty.
-
+type   is_nat   nat -> prolog.
 type   bind         exp -> ty -> elt.
 type   is_ty        ty -> prolog.
 type   is_cnt       cnt -> prolog.

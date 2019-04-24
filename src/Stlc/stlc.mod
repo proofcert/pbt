@@ -2,6 +2,12 @@ module stlc.
 
 %% Lambda-terms
 
+
+progs (is_nat N)
+      [(np "n_zero" (eq N zero)),
+       (np "n_succ" (and (eq N (succ N'))
+                         (is_nat N')))].
+
 progs (is_ty T)
       [(np "ty-int"  (eq T intTy)),
        (np "ty-list" (eq T listTy)),
@@ -24,7 +30,8 @@ progs (is_cnt C)
        (np "cnt-int" (and (eq C (toInt I))
                           (is_nat I))) ].
 
-shrink (to_int I) (to_int I') :- shrink I I'.
+% let's not shrink toInt, otherwise we need to shrink is_nat too
+% shrink (toInt I) (toInt I') :- shrink I I'.
 
 progs (is_exp E)
       [(np "exp-cnt" (and (eq E (c Cnt))
@@ -52,6 +59,17 @@ shrink (lam ExpX Ty) (lam ExpX Ty') :- shrink Ty Ty'.
 shrink (lam ExpX Ty) (lam ExpX' Ty') :- (pi x\ shrink (ExpX x) (ExpX' x)), shrink Ty Ty'.
 
 % Maintaining a context of lambda variables
+
+progs (is_exp' Ctx E)
+      [(np "c-exp-cnt" (and (eq E (c Cnt))
+                          (is_cnt Cnt))),
+       (np "c-exp-app" (and (eq E (app Exp1 Exp2))
+                          (and (is_exp' Ctx Exp1) (is_exp' Ctx Exp2)))),
+       (np "c-exp-lam" (and (and (eq E (lam ExpX Ty)) (eq Ctx  Ctx'))
+                          (and (nabla x\ is_exp' (cons x Ctx') (ExpX x)) (is_ty Ty)))),
+       (np "c-exp-err" (eq E error)) ].
+
+
 prog (is_exp' _ (c Cnt)) (is_cnt Cnt).
 prog (is_exp' Ctx (app Exp1 Exp2)) (and (is_exp' Ctx Exp1) (is_exp' Ctx Exp2)).
 prog (is_exp' Ctx (lam ExpX Ty)) (and (nabla x\ is_exp' (cons x Ctx) (ExpX x)) (is_ty Ty)).
