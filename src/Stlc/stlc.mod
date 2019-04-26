@@ -24,6 +24,15 @@ progs (is_cnt C)
        (np "cnt-int" (and (eq C (toInt I))
                           (is_nat I))) ].
 
+% Integrate tcc in the generator
+progs (is_tcnt C Ty)
+      [(np "cnt-cns" (and (eq C cns) (eq Ty (funTy intTy (funTy listTy listTy))))),
+       (np "cnt-hd"  (and (eq C hd)  (eq Ty (funTy listTy intTy)))),
+       (np "cnt-tl"  (and (eq C tl)  (eq Ty (funTy listTy listTy)))),
+       (np "cnt-nl"  (and (eq C nl)  (eq Ty listTy))),
+       (np "cnt-int" (and (and (eq C (toInt I)) (eq Ty intTy))
+                          (is_nat I))) ].
+
 shrink (to_int I) (to_int I') :- shrink I I'.
 
 progs (is_exp E)
@@ -34,6 +43,17 @@ progs (is_exp E)
        (np "exp-lam" (and (eq E (lam ExpX Ty))
                           (and (nabla x\ is_exp (ExpX x)) (is_ty Ty)))),
        (np "exp-err" (eq E error)) ].
+
+% Integrate wt in the generator
+progs (is_texp E Ty)
+      [(np "exp-cnt" (and (eq E (c Cnt))
+                          (is_tcnt Cnt Ty))),
+       (np "exp-app" (and (eq E (app Exp1 Exp2))
+                          (and (is_texp Exp1 (funTy H Ty)) (is_texp Exp2 H)))),
+       (np "exp-lam" (and (and (eq E (lam ExpX Tx)) (eq Ty (funTy Tx T)))
+                          (and (nabla x\ is_texp (ExpX x) T) (is_ty Tx)))),
+       (np "exp-err" (and (eq E error)
+                          (is_ty Ty))) ].
 
 shrink (c Cnt) (c Cnt') :- shrink Cnt Cnt.
 
