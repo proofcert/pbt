@@ -102,7 +102,6 @@ unfold_expert _ (qgen (qsize In Out)) (qgen (qsize In' Out)) _ :-
 
 some_expert (qgen Bound) (qgen Bound) T.
 
-
 %% Strict bounds
 
 tt_expert (qgen (qidsize _)).
@@ -197,6 +196,13 @@ sum_weights ((np ClauseId _) :: Clauses) Weights Sum CleanWeights :-
 	sum_weights Clauses Weights SubTotal SubWeights,
 	Sum is SubTotal + Weight,
 	CleanWeights = (qw ClauseId Weight) :: SubWeights.
+sum_weights ((np ClauseId _) :: Clauses) Weights Sum CleanWeights :-
+	% Fallback for clauses where no matching tuple is present
+	% It generates a uniform distribution where no distribution is given
+	not (member (qw ClauseId Weight) Weights),
+	sum_weights Clauses Weights SubTotal SubWeights,
+	Sum is SubTotal + 1,
+	CleanWeights = (qw ClauseId 1) :: SubWeights.
 
 % Take a lost of weighed clauses summing up to N = N1, N2, ... Nk; and a number
 % in the range [0, N). Select the clause according to the distribution:
@@ -302,4 +308,3 @@ some_expert (pair C1 C2) (pair C1' C2') T :-
 unfold_expert Gs (pair C1 C2) (pair C1' C2') Id :-
 	unfold_expert Gs C1 C1' Id,
 	unfold_expert Gs C2 C2' Id.
-
