@@ -289,12 +289,13 @@ some_expert (qshrink T Cert) Cert T' :-
 % Witness extraction %
 %%%%%%%%%%%%%%%%%%%%%%
 
-tt_expert qsubst0.
-and_expert qsubst0 qsubst0.
-or_expert qsubst0 qsubst0 _.
-unfold_expert _ qsubst0 qsubst0 _.
-some_expert (qsubst1 T Cert) Cert T.
+tt_expert (qsubst qsubst0).
+and_expert (qsubst qsubst0) (qsubst qsubst0) (qsubst qsubst0).
+or_expert (qsubst qsubst0) (qsubst qsubst0) _.
+unfold_expert _ (qsubst qsubst0) (qsubst qsubst0) _.
+some_expert (qsubst (qsubst1 T Cert)) (qsubst Cert) T.
 
+% Get rid of shrinking and just use the certificate wrapped in qsubst?
 subst2shrink qsubst0 qcompute.
 subst2shrink (qsubst1 T Cert) (qshrink T Cert') :-
 	subst2shrink Cert Cert'.

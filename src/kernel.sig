@@ -74,6 +74,7 @@ type   qshrink    A -> cert -> cert.
 type   qcompute   cert.
 
 % The companion witness extractor and converter
+type   qsubst    cert -> cert.
 type   qsubst1   A -> cert -> cert.
 type   qsubst0   cert.
 
