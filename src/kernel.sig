@@ -34,7 +34,6 @@ type   tt_expert       cert -> o.
 type   or_expert       cert -> cert -> choice -> o.
 type   and_expert      cert -> cert -> cert -> o.
 type   some_expert     cert -> cert -> A -> o.
-type   prog_expert     cert -> cert  -> o.
 type   unfold_expert   list nprolog -> cert -> cert -> string -> o.
 
 % Checker
