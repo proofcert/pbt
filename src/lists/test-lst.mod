@@ -8,9 +8,19 @@ accumulate lst.
 % no of tries
 tries 100.
 
-cex_ord_bad N L :-
-	check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
+% Simple generators, explicit existentials
+check_ord_bad N L Cert :-
+	check Cert
+              (some N'\ some L'\ and (and (eq N N') (eq L L'))
+                                     (and (is_nat N') (is_natlist L'))),
 	interp (ord_bad L),
+	interp (ins N L O),
+	not (interp (ord_bad O)).
+
+cex_ord_bad N L :-
+	%check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
+	%interp (ord_bad L),
+	check (qgen (qheight 4)) (ord_bad L),
 	interp (ins N L O),
 	not (interp (ord_bad O)).
 
@@ -45,18 +55,11 @@ cex_ord_bad_random2 N1 N2 L :-
 	interp (leq N1 N2),
 	not (interp (ord_bad (cons N1 (cons N2 L)))).
 
-
-cex_ord_bad_shrink N L :-
-	check (qshrink zero (
-               qshrink (cons zero (cons (succ (succ zero)) (cons zero null)))
-               qcompute))
-              (some N'\ some L'\ and (and (eq N N') (eq L L'))
-                                     (and (is_nat N') (is_natlist L'))),
-	interp (ord_bad L),
-	interp (ins N L O),
-	not (interp (ord_bad O)).
-
-
+% Currently two levels of backtracking: cex finding and shrinking over those.
+cex_ord_bad_shrink Nbig Lbig Nsmall Lsmall :-
+	check_ord_bad Nbig Lbig (pair (qgen (qheight 6)) (qsubst Qsubst)),
+	subst2shrink Qsubst Qshrink,
+	check_ord_bad Nsmall Lsmall Qshrink.
 
 %%% reverse
 
