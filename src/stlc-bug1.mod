@@ -8,9 +8,14 @@ accumulate stlc-step.
 
 % Tests
 cexprog E T :-
-	check (pair (qgen (qheight 4)) (qgen (qsize 6 _))) (is_exp E),
+	%Cert = (pair (qgen (qheight 4)) (qgen (qsize 6 N))),
+	%Cert = (qgen (qheight 4)),
+	Cert = (qgen (qsize 6 N)),
+	check Cert (is_exp E),
+ term_to_string Cert Certstr, print Certstr,
 	%check (qgen (qheight 1)) (is_ty T),
 	interp (wt null E T),
+ term_to_string E Estr, print Estr,
 	not (interp (progress E)).
 
 cexpres E E' T :-
