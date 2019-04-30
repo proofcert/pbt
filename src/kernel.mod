@@ -42,8 +42,9 @@ check Cert (or G1 G2) :-
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
-% (At the moment, as with nabla, no eq_expert.)
-check Cert (eq G G).
+% (At the moment, as with nabla, no eq_expert.) -- See bug!
+check Cert (eq G G) :-
+	eq_expert Cert.
 
 check Cert A :-
 	unfold_expert Cert Cert',
@@ -88,6 +89,9 @@ prog (append (cons X L) K (cons X M)) (append L K M).
 
 tt_expert (qgen (qheight _)).
 tt_expert (qgen (qsize In In)).
+
+eq_expert (qgen (qheight _)).
+eq_expert (qgen (qsize In In)).
 
 and_expert (qgen (qheight H)) (qgen (qheight H)) (qgen (qheight H)).
 and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
