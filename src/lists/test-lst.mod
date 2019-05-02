@@ -1,5 +1,11 @@
 module test-lst.
-accumulate lst. 
+accumulate nat.
+accumulate lst.
+accumulate kernel.
+accumulate fpc-qbound.
+accumulate fpc-qrandom.
+accumulate fpc-qshrink.
+accumulate fpc-pair.
 
 %%%%%%%%%
 % Tests %

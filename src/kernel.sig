@@ -35,13 +35,3 @@ type   unfold_expert   list nprolog -> cert -> cert -> string -> o.
 
 % Checker
 type   check   cert -> prolog -> o.
-
-% the following  should not be here, but in some datatype file
-
-kind   lst          type -> type.
-type   null         lst A.
-type   cons         A -> lst A -> lst A.
-
-kind   nat      type.
-type   zero     nat.
-type   succ     nat -> nat.

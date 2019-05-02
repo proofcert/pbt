@@ -1,12 +1,9 @@
 module lst.
-accumulate kernel.
+%accumulate kernel.
 
-
-%%%%%%% shrinkers
-
-shrink (succ N) N.
-shrink (succ N) N' :- shrink N N'.
-
+%%%%%%%%%%%%%
+% Shrinkers %
+%%%%%%%%%%%%%
 
 shrink (cons Hd Tl) Tl.
 shrink (cons Hd Tl) Tl' :- shrink Tl Tl'.
@@ -14,37 +11,18 @@ shrink (cons Hd Tl) (cons Hd' Tl) :- shrink Hd Hd'.
 shrink (cons Hd Tl) (cons Hd Tl') :- shrink Tl Tl'.
 shrink (cons Hd Tl) (cons Hd' Tl') :- shrink Hd Hd', shrink Tl Tl'.
 
-
-%%%%%%%%%%%
-% Program %
-%%%%%%%%%%%
-
-%% Natural numbers
-
-%TODO: Check Elpi bug on )]
-progs (is_nat N)
-      [(np "n_zero" (eq N zero)),
-       (np "n_succ" (and (eq N (succ N'))
-                         (is_nat N')))].
-
-progs (leq N M)
-      [(np "le0" (eq N zero)),
-       (np "les" (and (eq N (succ X)) (and (eq M (succ Y)) (leq X Y))))
-      ].
-
-
-progs (gt N M)
-      [(np "le0" (and (eq M zero) (eq N (succ _K)))),
-       (np "les" (and (eq N (succ X)) (and (eq M (succ Y)) (gt X Y))))
-      ].
-
-
-%% Lists
+%%%%%%%%%%%%%%
+% Generators %
+%%%%%%%%%%%%%%
 
 progs (is_natlist L)
       [(np "nl_null" (eq L null)),
        (np "nl_cons" (and (eq L (cons Hd Tl))
                      (and (is_nat Hd) (is_natlist Tl)))) ].
+
+%%%%%%%%%%%%%%
+% Predicates %
+%%%%%%%%%%%%%%
 
 progs (ord_bad L)
       [(np "o_n" (eq L null)),
@@ -57,7 +35,6 @@ progs (ins X L R)
       (np "i_s" (and (eq L (cons Y Ys)) (and (eq R  (cons X (cons Y Ys))) (leq X Y)))),
       (np "i_c" (and (eq L (cons Y Ys)) (and (eq R  (cons X Rs)) (and (gt X Y) (ins X Ys Rs)))))
             ].
-
 
 progs (rev L R)
    [(np "rn" (and (eq L null) (eq R null))),
