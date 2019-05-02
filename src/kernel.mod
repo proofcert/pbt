@@ -44,6 +44,9 @@ interp A :-
 check Cert tt :-
 	tt_expert Cert.
 
+check Cert (eq G G) :-
+	eq_expert Cert.
+
 check Cert (and G1 G2) :-
 	and_expert Cert Cert1 Cert2,
 	check Cert1 G1,
@@ -63,10 +66,6 @@ check Cert (some G) :-
 
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
-
-% (At the moment, as with nabla, no eq_expert.) -- See bug!
-check Cert (eq G G) :-
-	eq_expert Cert.
 
 % The unfold rule lets the expert inspect the available clauses (this should
 % be done with great care, ideally limiting the information to a list of names,
@@ -109,12 +108,14 @@ some_expert (qgen Bound) (qgen Bound) T.
 %% Strict bounds
 
 tt_expert (qgen (qidsize _)).
+eq_expert (qgen (qidsize _)).
 and_expert (qgen (qidsize Max)) Cert Cert' :-
 	and_expert (qgen (qidsize' 0 Max)) Cert Cert'.
 unfold_expert Gs (qgen (qidsize Max)) Cert Id :-
 	unfold_expert Gs (qgen (qidsize' 0 Max)) Cert Id.
 
 tt_expert (qgen (qidsize' _ _)).
+eq_expert (qgen (qidsize' _ _)).
 and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
@@ -133,6 +134,7 @@ unfold_expert Gs (qgen (qidsize' Size Max)) Cert Id :-
 	unfold_expert Gs (qgen (qidsize' Size' Max)) Cert Id.
 
 tt_expert (qgen (qrgsize Mid Mid)).
+eq_expert (qgen (qrgsize Mid Mid)).
 and_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max Mid)) (qgen (qrgsize Mid Min)).
 unfold_expert _ (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) _ :-
 	Max > 0,
@@ -146,12 +148,14 @@ unfold_expert _ (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) _ :-
 %% a subject of further elaboration.
 
 tt_expert (qgen (qidheight _)).
+eq_expert (qgen (qidheight _)).
 and_expert (qgen (qidheight Max)) Cert Cert' :-
 	and_expert (qgen (qidheight' 0 Max)) Cert Cert'.
 unfold_expert Gs (qgen (qidheight Max)) Cert Id :-
 	unfold_expert Gs (qgen (qidheight' 0 Max)) Cert Id.
 
 tt_expert (qgen (qidheight' _ _)).
+eq_expert (qgen (qidheight' _ _)).
 and_expert (qgen (qidheight' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
@@ -170,6 +174,7 @@ unfold_expert Gs (qgen (qidheight' Size Max)) Cert Id :-
 	unfold_expert Gs (qgen (qidheight' Size' Max)) Cert Id.
 
 tt_expert (qgen (qrgheight Min Min)).
+eq_expert (qgen (qrgheight Min Min)).
 and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)).
 and_expert (qgen (qrgheight Max Min)) (qgen (qrgheight Max Min)) (qgen (qheight Max')) :-
 	Max > 0,
@@ -224,6 +229,8 @@ select_clause Countdown ((qw _ Weight) :: Weights) ClauseId :-
 
 tt_expert (qrandom _).
 
+eq_expert (qrandom _).
+
 and_expert (qrandom Ws) (qrandom Ws) (qrandom Ws).
 
 or_expert (qrandom Ws) (qrandom Ws) Choice :-
@@ -275,6 +282,8 @@ some_expert (qrandom W) (qrandom W) T.
 
 tt_expert qcompute.
 
+eq_expert qcompute.
+
 and_expert qcompute qcompute qcompute.
 
 or_expert qcompute qcompute Choice :-
@@ -294,6 +303,7 @@ some_expert (qshrink T Cert) Cert T' :-
 %%%%%%%%%%%%%%%%%%%%%%
 
 tt_expert (qsubst qsubst0).
+eq_expert (qsubst qsubst0).
 and_expert (qsubst qsubst0) (qsubst qsubst0) (qsubst qsubst0).
 or_expert (qsubst qsubst0) (qsubst qsubst0) _.
 unfold_expert _ (qsubst qsubst0) (qsubst qsubst0) _.
