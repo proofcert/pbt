@@ -64,8 +64,9 @@ check Cert (some G) :-
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
-% At the moment, as with nabla, no eq_expert.
-check Cert (eq G G).
+% (At the moment, as with nabla, no eq_expert.) -- See bug!
+check Cert (eq G G) :-
+	eq_expert Cert.
 
 % The unfold rule lets the expert inspect the available clauses (this should
 % be done with great care, ideally limiting the information to a list of names,
@@ -84,6 +85,9 @@ check Cert A :-
 
 tt_expert (qgen (qheight _)).
 tt_expert (qgen (qsize In In)).
+
+eq_expert (qgen (qheight _)).
+eq_expert (qgen (qsize In In)).
 
 and_expert (qgen (qheight H)) (qgen (qheight H)) (qgen (qheight H)).
 and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
@@ -307,6 +311,10 @@ subst2shrink (qsubst1 T Cert) (qshrink T Cert') :-
 tt_expert (pair C1 C2) :-
 	tt_expert C1,
 	tt_expert C2.
+
+eq_expert (pair C1 C2) :-
+	eq_expert C1,
+	eq_expert C2.
 
 and_expert (pair C1 C2) (pair C1' C2') (pair C1'' C2'') :-
 	and_expert C1 C1' C1'',

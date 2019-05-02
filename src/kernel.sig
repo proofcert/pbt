@@ -31,6 +31,7 @@ kind   idx   type.
 
 kind   cert            type.
 type   tt_expert       cert -> o.
+type   eq_expert       cert -> o.
 type   or_expert       cert -> cert -> choice -> o.
 type   and_expert      cert -> cert -> cert -> o.
 type   some_expert     cert -> cert -> A -> o.
