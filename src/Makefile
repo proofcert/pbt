@@ -3,7 +3,7 @@
 TJROOT = ~/bin
 #VPATH = ../common
 
-#export TJPATH = ../common
+export TJPATH = .:lists
 
 %.lpo : %.mod %.sig
 	$(TJROOT)/tjcc  $*

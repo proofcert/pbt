@@ -1,4 +1,5 @@
 sig fpc-qrandom.
+accum_sig kernel.
 
 % Helpers
 type   member   A -> list A -> o.

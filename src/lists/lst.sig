@@ -1,4 +1,5 @@
 sig lst.
+accum_sig nat.
 accum_sig kernel.
 accum_sig fpc-qshrink.
 

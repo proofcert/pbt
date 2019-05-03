@@ -1,4 +1,5 @@
 sig fpc-qbound.
+accum_sig kernel.
 
 % A "quick"-style FP
 kind   qbound    type.

@@ -1,4 +1,5 @@
 sig fpc-qshrink.
+accum_sig kernel.
 
 % Term shrinkers
 type   shrink    A -> A -> o.
