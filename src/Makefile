@@ -1,6 +1,6 @@
 # Makefile for the imbedding
 
-TJROOT = ~/bin
+TJROOT = /usr/bin
 #VPATH = ../common
 
 export TJPATH = .:lists
