@@ -53,7 +53,7 @@ nocex_rev  L :-
 
 %% our beloved example
 cex_rev Gen L :-
-	check Cert (is_natlist L),
+	check Gen (is_natlist L),
 	interp (rev L R),
 	not (L = R).
 
