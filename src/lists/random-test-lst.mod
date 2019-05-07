@@ -94,13 +94,14 @@ nocex_rev  L :-
 
 %% our beloved example
 cex_rev Gen L :-
-	check Cert (is_natlist L),
+	check Gen (some L'\ and (eq L L') (is_natlist L')),
 	interp (rev L R),
 	not (L = R).
 
-
-
-
+cex_gen_shrink Lbig Lsmall :-
+	cex_rev (pair (qtries 100 []) (qsubst Qsubst)) Lbig,
+	subst2shrink Qsubst Qshrink,
+	cex_rev Qshrink Lsmall.
 
 
 main  :-
