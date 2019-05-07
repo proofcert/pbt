@@ -57,6 +57,24 @@ cex_rev Gen L :-
 	interp (rev L R),
 	not (L = R).
 
+app [] L L.
+app (X:: Xs) Ys (X:: Zs) :-
+    app Xs Ys Zs.
+
+mk_list 0 [] :- !.
+mk_list N Ls :-
+  N1 is N - 1,
+  mk_list N1 Ns,
+  app Ns [N] Ls.
+
+cex_revIt Bound L :-
+	mk_list Bound Range,
+%	Range = [1,2,3,4,5,6,7,8,9,10],
+	memb H Range,
+	check (qgen (qheight H)) (is_natlist L),
+	interp (rev L R),
+	not (L = R).
+
 
 
 
