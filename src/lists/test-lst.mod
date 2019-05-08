@@ -70,9 +70,21 @@ cex_rev Gen L :-
 	interp (rev L R),
 	not (L = R).
 
-app [] L L.
-app (X:: Xs) Ys (X:: Zs) :-
-    app Xs Ys Zs.
+cex_rev_debug Gen L Trace :-
+	check Gen (some L'\ and (eq L L') (is_natlist L)),
+	check (rec RawTrace) (rev L R),
+	not (L = R),
+	pp RawTrace Trace.
+
+cex_rev_shrink Gen Lbig Lsmall Trace :-
+	cex_rev_debug (pair Gen (qsubst Qsubst)) Lbig _,
+	subst2shrink Qsubst Qshrink,
+	cex_rev_debug Qshrink Lsmall Trace.
+
+% RB: This clashes with the app in fpc-rec, and creates a loop.
+%app [] L L.
+%app (X:: Xs) Ys (X:: Zs) :-
+%    app Xs Ys Zs.
 
 mk_list 0 [] :- !.
 mk_list N Ls :-
@@ -87,9 +99,5 @@ cex_revIt Bound L :-
 	check (qgen (qheight H)) (is_natlist L),
 	interp (rev L R),
 	not (L = R).
-
-
-
-
 
 
