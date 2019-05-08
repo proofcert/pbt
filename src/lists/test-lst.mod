@@ -5,6 +5,7 @@ accumulate kernel.
 accumulate fpc-qbound.
 accumulate fpc-qshrink.
 accumulate fpc-pair.
+accumulate fpc-rec.
 
 %%%%%%%%%
 % Tests %
@@ -41,6 +42,10 @@ cex_ord_bad_shrink Nbig Lbig Nsmall Lsmall :-
 	check_ord_bad Nbig Lbig (pair (qgen (qheight 6)) (qsubst Qsubst)),
 	subst2shrink Qsubst Qshrink,
 	check_ord_bad Nsmall Lsmall Qshrink.
+
+cex_ord_bad_debug N L PPTrace :-
+	check_ord_bad N L (pair (qgen (qheight 6)) (rec Trace)),
+	pp Trace PPTrace.
 
 %%% reverse
 
