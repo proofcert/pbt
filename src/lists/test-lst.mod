@@ -21,6 +21,14 @@ check_ord_bad N L Cert :-
 	interp (ins N L O),
 	not (interp (ord_bad O)).
 
+debug_ord_bad N L Cert PPTrace :-
+	check Cert
+              (some N'\ some L'\ and (and (eq N N') (eq L L'))
+                                     (and (is_nat N') (is_natlist L'))),
+	check (rec Trace) (ord_bad L), pp Trace PPTrace,
+	interp (ins N L O),
+	not (interp (ord_bad O)).
+
 cex_ord_bad N L :-
 	%check (qgen (qheight 4)) (and (is_nat N) (is_natlist L)),
 	%interp (ord_bad L),
