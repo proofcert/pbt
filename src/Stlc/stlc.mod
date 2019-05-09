@@ -2,12 +2,6 @@ module stlc.
 
 %% Lambda-terms
 
-
-progs (is_nat N)
-      [(np "n_zero" (eq N zero)),
-       (np "n_succ" (and (eq N (succ N'))
-                         (is_nat N')))].
-
 progs (is_ty T)
       [(np "ty-int"  (eq T intTy)),
        (np "ty-list" (eq T listTy)),

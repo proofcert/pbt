@@ -8,7 +8,7 @@ accumulate stlc-step.
 accumulate nat.
 accumulate lst.
 accumulate fpc-qbound.
-%accumulate fpc-qrandom.
+accumulate fpc-qrandom.
 accumulate fpc-pair.
 
 % Tests
