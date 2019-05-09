@@ -21,6 +21,9 @@ interp (or G1 G2) :-
 	interp G1;
 	interp G2.
 
+interp (some G) :-
+	interp (G _).
+
 interp (nabla G) :-
 	pi x\ interp (G x).
 
@@ -64,6 +67,7 @@ check Cert (some G) :-
 check Cert (nabla G) :-
 	pi x\ check Cert (G x).
 
+
 % The unfold rule lets the expert inspect the available clauses (this should
 % be done with great care, ideally limiting the information to a list of names,
 % set and immutable) and can restrict their selection by name.
@@ -73,4 +77,9 @@ check Cert A :-
 	unfold_expert Gs Cert Cert' Id,
 	memb (np Id G) Gs,
 % term_to_string G GStr, print "unfold selected: ", print Id, print ", ", print GStr,
+	check Cert' G.
+%
+check Cert A :-
+	prog A G,
+	unfold_expert [np "0" G] Cert Cert' "0",
 	check Cert' G.
