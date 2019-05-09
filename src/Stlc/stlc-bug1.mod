@@ -5,8 +5,11 @@ accumulate stlc-tcc.
 accumulate stlc-wt-bug1.
 accumulate stlc-value.
 accumulate stlc-step.
-
-
+accumulate nat.
+accumulate lst.
+accumulate fpc-qbound.
+%accumulate fpc-qrandom.
+accumulate fpc-pair.
 
 % Tests
 cexprog E T :-
