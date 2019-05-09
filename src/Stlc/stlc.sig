@@ -1,5 +1,7 @@
 sig stlc.
 accum_sig kernel.
+accum_sig nat.
+accum_sig lst.
 
 kind   cnt, exp, ty, elt   type.
 
@@ -26,11 +28,12 @@ type   memb_ctx     lst exp -> exp -> o.
 type   is_elt       elt -> prolog.
 type   is_eltlist   lst elt -> prolog.
 type   tcc          cnt -> ty -> prolog.
-type   memb         elt -> lst elt -> prolog.
+type   memb_elt     elt -> lst elt -> prolog.
 type   wt           lst elt -> exp -> ty -> prolog.
 type   is_value     exp -> prolog.
 type   is_error     exp -> prolog.
 type   step         exp -> exp -> prolog.
 type   progress     exp -> prolog.
 
-type range  list int -> o.
+type   range      list int -> o.
+type   itsearch   int -> int -> o.

@@ -108,8 +108,8 @@ prog (is_eltlist null) (tt).
 prog (is_eltlist (cons E L)) (and (is_elt E) (is_eltlist L)).
 
 % "Polymorphic" membership
-prog (memb X (cons X _)) (tt).
-prog (memb X (cons Y Gamma)) (memb X Gamma).
+prog (memb_elt X (cons X _)) (tt).
+prog (memb_elt X (cons Y Gamma)) (memb_elt X Gamma).
 
 prog (is_error error) (tt).
 prog (is_error (app (c hd) (c nl))) (tt).
