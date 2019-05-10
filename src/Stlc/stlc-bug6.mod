@@ -5,10 +5,13 @@ accumulate stlc-tcc.
 accumulate stlc-wt.
 accumulate stlc-value.
 accumulate stlc-step-bug6.
+accumulate nat.
+accumulate lst.
+accumulate fpc-qbound.
+accumulate fpc-pair.
 
 % Tests
 cexprog E T :-
-	check (pair (qgen (qheight 6)) (qgen (qsize 12 _))) (is_exp E),
-	%check (qgen (qheight 1)) (is_ty T),
-	interp (wt null E T),
+	itsearch H SH,
+	check (pair (qgen (qheight H)) (qgen (qsize SH _))) (wt null E T),
 	not (interp (progress E)).
