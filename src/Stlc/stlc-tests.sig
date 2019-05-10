@@ -1,6 +1,8 @@
 sig stlc-tests.
 accum_sig kernel.
-
+accum_sig stlc.
+accum_sig fpc-qbound.
+accum_sig fpc-pair.
 % Certificate generation
 
 type   itsearch_h    cert -> o.
