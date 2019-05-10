@@ -5,9 +5,13 @@ accumulate stlc-tcc-bug4.
 accumulate stlc-wt.
 accumulate stlc-value.
 accumulate stlc-step.
+accumulate nat.
+accumulate lst.
+accumulate fpc-qbound.
+accumulate fpc-pair.
 
 prog (is_cnt plus) (tt).
-prog (tcc plus (funTy intTy (funTy intTy intTy))) (tt).
+%prog (tcc plus (funTy intTy (funTy intTy intTy))) (tt).
 
 prog (is_value (app (c plus) V)) (is_value V).
 
@@ -17,7 +21,6 @@ prog (add_value (c (toInt (succ X))) (c Y) (c (toInt (succ Z)))) (add_value (c (
 
 % Tests
 cexprog E T :-
-	check (pair (qgen (qheight 6)) (qgen (qsize 16 _))) (is_exp E),
-	%check (qgen (qheight 1)) (is_ty T),
-	interp (wt null E T),
+	itsearch H SH,
+	check (pair (qgen (qheight H)) (qgen (qsize SH _))) (wt null E T),
 	not (interp (progress E)).
