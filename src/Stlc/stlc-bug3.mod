@@ -10,18 +10,9 @@ accumulate lst.
 accumulate fpc-qbound.
 accumulate fpc-qrandom.
 accumulate fpc-pair.
+accumulate stlc-tests.
 
-% Tests
-cexprog E T :-
-	itsearch H SH,
-	check (pair (qgen (qheight H)) (qgen (qsize SH _))) (wt null E T),
-	not (interp (progress E)).
-
-cexpres E E' T :-
-	itsearch H SH,
-	check (pair (qgen (qheight H)) (qgen (qsize SH _))) (wt null E T),
-	interp (step E E'),
-	not (interp (wt null E' T)).
+% Tests (prog, pres)
 
 qcprog :-
 	random.init 42,
