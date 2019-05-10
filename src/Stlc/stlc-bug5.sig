@@ -5,6 +5,6 @@ accum_sig stlc-tcc.
 accum_sig stlc-wt.
 accum_sig stlc-value.
 accum_sig stlc-step-bug5.
+accum_sig stlc-tests.
 
-% Tests
-type   cexpres    exp -> exp -> ty -> o.
+% Tests (pres)

@@ -5,23 +5,14 @@ accumulate stlc-tcc.
 accumulate stlc-wt-bug1.
 accumulate stlc-value.
 accumulate stlc-step.
+accumulate stlc-tests.
 accumulate nat.
 accumulate lst.
 accumulate fpc-qbound.
 accumulate fpc-qrandom.
 accumulate fpc-pair.
 
-% Tests
-cexprog E T :-
-	itsearch H SH,
-	check (pair (qgen (qheight H)) (qgen (qsize SH _))) (wt null E T),
-	not (interp (progress E)).
-
-cexpres E E' T :-
-	itsearch H SH,
-	check (pair (qgen (qheight H)) (qgen (qsize SH _))) (wt null E T),
-	interp (step E E'),
-	not (interp (wt null E' T)).
+% Tests (prog)
 
 % Note that pairing could be used to bound the size of random terms
 % At the moment, some prog backtracking related to context variable selection

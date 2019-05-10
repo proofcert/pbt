@@ -5,6 +5,6 @@ accum_sig stlc-tcc.
 accum_sig stlc-wt.
 accum_sig stlc-value.
 accum_sig stlc-step-bug7.
+accum_sig stlc-tests.
 
-% Tests
-type   cexprog   exp -> ty -> o.
+% Tests (prog)
