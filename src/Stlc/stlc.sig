@@ -33,6 +33,7 @@ type   wt           lst elt -> exp -> ty -> prolog.
 type   is_value     exp -> prolog.
 type   is_error     exp -> prolog.
 type   step         exp -> exp -> prolog.
+type   stepn        exp -> exp -> prolog.
 type   progress     exp -> prolog.
 
 type   range      list int -> o.
