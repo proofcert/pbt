@@ -3,6 +3,12 @@ sig kernel.
 % Helpers
 type   memb     A -> list A -> o.
 
+% clause rep
+
+type <>=    o -> o -> o.
+infixl <>= 5.
+type interp   o -> o.
+/*
 % Formulas and their terms
 kind   prolog        type.
 type   tt            prolog.
@@ -18,7 +24,7 @@ type   np        string -> prolog -> nprolog.
 type   progs     prolog -> list nprolog -> o.
 
 type   interp    prolog -> o.
-
+*/
 % Certificates
 kind   choice        type.
 type   left, right   choice.
@@ -31,7 +37,8 @@ type   eq_expert       cert -> o.
 type   or_expert       cert -> cert -> choice -> o.
 type   and_expert      cert -> cert -> cert -> o.
 type   some_expert     cert -> cert -> A -> o.
-type   unfold_expert   list nprolog -> cert -> cert -> string -> o.
+type   unfold_expert   cert -> cert ->  o.
+% type   unfold_experts   list nprolog -> cert -> cert -> string -> o.
 
 % Checker
-type   check   cert -> prolog -> o.
+type   check   cert -> o -> o.
