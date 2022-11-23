@@ -24,6 +24,11 @@ some_expert (pair C1 C2) (pair C1' C2') T :-
 	some_expert C1 C1' T,
 	some_expert C2 C2' T.
 
-unfold_expert Gs (pair C1 C2) (pair C1' C2') Id :-
-	unfold_expert Gs C1 C1' Id,
-	unfold_expert Gs C2 C2' Id.
+
+unfold_expert (pair C1 C2) (pair C1' C2')  :-
+	unfold_expert  C1 C1',
+	unfold_expert  C2 C2'.
+
+% unfold_experts Gs (pair C1 C2) (pair C1' C2') Id :-
+% 	unfold_experts Gs C1 C1' Id,
+% 	unfold_experts Gs C2 C2' Id.

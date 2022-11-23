@@ -3,24 +3,23 @@ accumulate nat.
 accumulate lst.
 accumulate kernel.
 accumulate fpc-qbound.
-accumulate fpc-qshrink.
+% accumulate fpc-qshrink.
 accumulate fpc-pair.
-accumulate fpc-rec.
+% accumulate fpc-rec.
 
 %%%%%%%%%
 % Tests %
 %%%%%%%%%
 
 
-% Simple generators, explicit existentials
+% Simple generators - - +
 check_ord_bad N L Cert :-
-	check Cert
-              (some N'\ some L'\ and (and (eq N N') (eq L L'))
-                                     (and (is_nat N') (is_natlist L'))),
+	check Cert ((is_nat N), (is_natlist L)),
 	interp (ord_bad L),
 	interp (ins N L O),
 	not (interp (ord_bad O)).
 
+/* 
 debug_ord_bad N L Cert PPTrace :-
 	check Cert
               (some N'\ some L'\ and (and (eq N N') (eq L L'))
@@ -54,7 +53,7 @@ cex_ord_bad_shrink Nbig Lbig Nsmall Lsmall :-
 cex_ord_bad_debug N L PPTrace :-
 	check_ord_bad N L (pair (qgen (qheight 6)) (rec Trace)),
 	pp Trace PPTrace.
-
+*/
 %%% reverse
 
 
@@ -69,7 +68,7 @@ cex_rev Gen L :-
 	check Gen (is_natlist L),
 	interp (rev L R),
 	not (L = R).
-
+/*
 cex_rev_debug Gen L Trace :-
 	check Gen (some L'\ and (eq L L') (is_natlist L)),
 	check (rec RawTrace) (rev L R),
@@ -80,11 +79,7 @@ cex_rev_shrink Gen Lbig Lsmall Trace :-
 	cex_rev_debug (pair Gen (qsubst Qsubst)) Lbig _,
 	subst2shrink Qsubst Qshrink,
 	cex_rev_debug Qshrink Lsmall Trace.
-
-% RB: This clashes with the app in fpc-rec, and creates a loop.
-%app [] L L.
-%app (X:: Xs) Ys (X:: Zs) :-
-%    app Xs Ys Zs.
+*/
 
 mk_list 0 [] :- !.
 mk_list N Ls :-

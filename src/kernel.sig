@@ -2,6 +2,7 @@ sig kernel.
 
 % Helpers
 type   memb     A -> list A -> o.
+type   shrink    A -> A -> o.
 
 % clause rep
 

@@ -16,13 +16,20 @@ and_expert (qgen (qsize In Out)) (qgen (qsize In Mid)) (qgen (qsize Mid Out)).
 or_expert (qgen (qheight H)) (qgen (qheight H)) Ch.
 or_expert (qgen (qsize In Out)) (qgen (qsize In Out)) Ch.
 
-unfold_expert _ (qgen (qheight H)) (qgen (qheight H')) _ :-
+unfold_expert (qgen (qheight H)) (qgen (qheight H')) :-
 	H > 0,
 	H' is H - 1.
-unfold_expert _ (qgen (qsize In Out)) (qgen (qsize In' Out)) _ :-
+unfold_expert  (qgen (qsize In Out)) (qgen (qsize In' Out)) :-
 	In > 0,
 	In' is In - 1.
-
+/*
+unfold_experts _ (qgen (qheight H)) (qgen (qheight H')) _ :-
+	H > 0,
+	H' is H - 1.
+unfold_experts _ (qgen (qsize In Out)) (qgen (qsize In' Out)) _ :-
+	In > 0,
+	In' is In - 1.
+*/
 some_expert (qgen Bound) (qgen Bound) T.
 
 %%%%%%%%%%%%%%%%%
@@ -35,8 +42,11 @@ tt_expert (qgen (qidsize _)).
 eq_expert (qgen (qidsize _)).
 and_expert (qgen (qidsize Max)) Cert Cert' :-
 	and_expert (qgen (qidsize' 0 Max)) Cert Cert'.
-unfold_expert Gs (qgen (qidsize Max)) Cert Id :-
-	unfold_expert Gs (qgen (qidsize' 0 Max)) Cert Id.
+unfold_expert (qgen (qidsize Max)) Cert  :-
+	unfold_expert (qgen (qidsize' 0 Max)) Cert.
+
+% unfold_experts Gs (qgen (qidsize Max)) Cert Id :-
+% 	unfold_expert Gs (qgen (qidsize' 0 Max)) Cert Id.
 
 tt_expert (qgen (qidsize' _ _)).
 eq_expert (qgen (qidsize' _ _)).
@@ -44,26 +54,44 @@ and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
 	and_expert (qgen (qrgsize Size' 0)) Cert Cert'.
-unfold_expert Gs (qgen (qidsize' Size Max)) Cert Id :-
+unfold_expert (qgen (qidsize' Size Max)) Cert :-
 	Size < Max,
 	Size' is Size + 1,
-	unfold_expert Gs (qgen (qrgsize Size' 0)) Cert Id.
+	unfold_expert (qgen (qrgsize Size' 0)) Cert.
+
+% unfold_experts Gs (qgen (qidsize' Size Max)) Cert Id :-
+% 	Size < Max,
+% 	Size' is Size + 1,
+% 	unfold_experts Gs (qgen (qrgsize Size' 0)) Cert Id.
+
 and_expert (qgen (qidsize' Size Max)) Cert Cert' :-
 	Size < Max,
 	Size' is Size + 1,
 	and_expert (qgen (qidsize' Size' Max)) Cert Cert'.
-unfold_expert Gs (qgen (qidsize' Size Max)) Cert Id :-
+unfold_expert (qgen (qidsize' Size Max)) Cert :-
 	Size < Max,
 	Size' is Size + 1,
-	unfold_expert Gs (qgen (qidsize' Size' Max)) Cert Id.
+	unfold_expert (qgen (qidsize' Size' Max)) Cert .
+
+
+% unfold_experts Gs (qgen (qidsize' Size Max)) Cert Id :-
+% 	Size < Max,
+% 	Size' is Size + 1,
+% 	unfold_experts Gs (qgen (qidsize' Size' Max)) Cert Id.
 
 tt_expert (qgen (qrgsize Mid Mid)).
 eq_expert (qgen (qrgsize Mid Mid)).
 and_expert (qgen (qrgsize Max Min)) (qgen (qrgsize Max Mid)) (qgen (qrgsize Mid Min)).
-unfold_expert _ (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) _ :-
+unfold_expert  (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) :-
 	Max > 0,
 	Max' is Max - 1.
 
+% unfold_experts _ (qgen (qrgsize Max Min)) (qgen (qrgsize Max' Min)) _ :-
+% 	Max > 0,
+% 	Max' is Max - 1.
+
+% commented for now
+/*
 %% Similarly for height. Exact bounds are inefficient in that there is no
 %% immediate *and* simple way to cooordinate both sides of a conjunct so that at
 %% least one reaches the required height. An easy workaround leads to some
@@ -109,3 +137,4 @@ and_expert (qgen (qrgheight Max Min)) (qgen (qheight Max')) (qgen (qrgheight Max
 unfold_expert _ (qgen (qrgheight Max Min)) (qgen (qrgheight Max' Min)) _ :-
 	Max > 0,
 	Max' is Max - 1.
+*/
