@@ -1,0 +1,16 @@
+
+type non_atomic, atomic      sl -> o.
+
+% Adding these predicates should improve performance.  Not in the
+% original paper.
+non_atomic tt.
+non_atomic (_ eq _).
+non_atomic (_ and _).
+non_atomic (_ or _).
+non_atomic (some _).
+non_atomic (all _).
+non_atomic (bang _).
+non_atomic (_ =o _).
+non_atomic (_ -o _).
+%atomic A :- not (non_atomic A).
+atomic A.

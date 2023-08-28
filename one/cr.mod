@@ -1,5 +1,17 @@
 module cr.
 
+% [harness] ?- prop_dia (height 4) beta M.
+%
+% The answer substitution:
+% M = app (lam (W1\ app W1 W1)) (app (lam (W1\ W1)) (lam (W1\ W1)))
+%
+% More solutions (y/n)? y
+%
+% The answer substitution:
+% M = app (lam (W1\ app W1 W1)) (app (lam (W1\ W1)) (lam (W1\ W1)))
+%
+% More solutions (y/n)? 
+
 /* joinable */
 joinableS Step M M    <>== tt.
 joinableS Step M1 M2  <>== some P\ (Step M1 P) and (Step M2 P).
@@ -10,6 +22,22 @@ prop_dia Cert Step M :-
     llinterp nil nil (Step M M2),
     not(llinterp nil nil (joinableS Step M1 M2)).
 /* end */
+
+% [harness] ?- prop_eta_pres (height 4) M M' A.
+%
+% The answer substitution:
+% A = arTy _T1 (arTy unitTy (arTy _T2 unitTy))
+% M' = app (app (lam (W1\ W1)) (lam (W1\ W1))) (lam (W1\ lam (W2\ ep)))
+% M = app (app (lam (W1\ W1)) (lam (W1\ W1))) (lam (W1\ lam (W2\ W1)))
+%
+% More solutions (y/n)? y
+%
+% The answer substitution:
+% A = arTy _T1 (arTy unitTy (arTy _T2 unitTy))
+% M' = app (lam (W1\ W1)) (lam (W1\ lam (W2\ ep)))
+% M = app (lam (W1\ W1)) (lam (W1\ lam (W2\ W1)))
+%
+% More solutions (y/n)? 
 
 /* eta-cex */
 wt_pres M N A <>== (wt M A) and (wt N A).
@@ -35,8 +63,6 @@ teta (lam M) (lam N) (arTy A B) <>==
   all w\ wt w A =o teta (M w) (N w) B.
 /* end */
 
-
-
 beta (app (lam M) N) (M N)    <>== tt.
 beta (app N1 N2) (app N11 N2) <>== beta N1 N11.
 beta (app N1 N2) (app N1 N22) <>== beta N2 N22.
@@ -53,11 +79,39 @@ example 2 (app (app (lam (W1\ W1)) (lam (W1\ W1))) (lam (W1\ lam (W2\ ep)))).
 
 % ?- example 1 M, example 2 N, eta_pres (height 5) M N (arTy unitTy (arTy _T1 unitTy)).
 % This fail, meaning that M and N can both have this type.
-
+%
 % ?- example 1 M, example 2 N, eta_pres (height 5) M N (arTy A (arTy unitTy (arTy B unitTy))).
 % This succeeds, meaning that M and N cannot both have this type.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% [harness] ?- prop_eta_dia (height 4)  M A.
+%
+% The answer substitution:
+% A = arTy (arTy unitTy unitTy) (arTy unitTy unitTy)
+% M = lam (W1\ lam (W2\ app W1 W2))
+%
+% More solutions (y/n)? y
+%
+% The answer substitution:
+% A = arTy (arTy unitTy unitTy) (arTy unitTy unitTy)
+% M = lam (W1\ lam (W2\ app W1 W2))
+%
+% More solutions (y/n)? y
+%
+% The answer substitution:
+% A = arTy (arTy (arTy unitTy unitTy) unitTy) (arTy (arTy unitTy unitTy) unitTy)
+% M = lam (W1\ lam (W2\ app W1 W2))
+%
+% More solutions (y/n)? y
+%
+% The answer substitution:
+% A = arTy (arTy (arTy unitTy unitTy) unitTy) (arTy (arTy unitTy unitTy) unitTy)
+% M = lam (W1\ lam (W2\ app W1 W2))
+%
+% More solutions (y/n)? y
+%
+% no (more) solutions
+%
+% [harness] ?- 
 
 joinable_teta M M A    <>== tt.
 joinable_teta M1 M2 A  <>== some P\ (teta M1 P A) and (teta M2 P A).

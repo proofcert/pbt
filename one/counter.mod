@@ -1,5 +1,4 @@
 module counter.
-accumulate infra.
 
 /* toggle */
 toggle G <>== on  and (off -o G).
@@ -22,7 +21,6 @@ is_lexp ep          <>== tt.
 is_lexp (fst E)     <>== is_lexp E.
 is_lexp (snd E)     <>== is_lexp E.
 is_lexp (pair E F)  <>== is_lexp E and is_lexp F.
-
 
 
 /* cbnv */
@@ -68,7 +66,7 @@ prop_cbnv Cert M V U:-
 
 
 % Both program 2 and 5 distinquish cbv and cbn.
-% ?- main cbv I V, main cbn I U, not (V = U).
+% ?- prog I M, eval cbn M V, eval cbv M U, not (U = V).
 
 prog 1 (get).
 prog 2 (app (lam x\ get) (set 42)).
@@ -77,20 +75,35 @@ prog 4 (set 42).
 prog 5 (app (app (lam x\ lam y\ y) (set 42)) get).
 
 % pres1: Find linear lambda-terms that evaluation (via Step) to a 
-% not linear term. None exist.
+% not linear term. None exist.  For example, the following fails:
+% ?- prog I M, prop_pres1 (height 5) cbn M V.
 
-% pres2: Find terms that are not linear but evaluation (via Step)
-% to a linear term.  The call to wt allows avoiding non terminating
-% programs like (app (lam x\ app x x) (lam x\ app x x)).
+% pres2: Find terms that are not linear but evaluate (via Step)
+% to a linear term.  The call to wt allows avoiding non-terminating
+% programs like (app (lam x\ app x x) (lam x\ app x x)).  For example:
+%
+% ?- prop_pres2 ( height 4 ) cbv M V.
+%
+% The answer substitution:
+% V = lam (W1\ W1)
+% M = app (lam (W1\ lam (W2\ W2))) (app (lam (W1\ W1)) (lam (W1\ W1)))
+%
+% More solutions (y/n)? y
+%
+% The answer substitution:
+% V = lam (W1\ W1)
+% M = app (lam (W1\ lam (W2\ W2))) (lam (W1\ W1))
+%
+% More solutions (y/n)? 
 
 /* pres */
-prop_pres1 Cert Step M N :-
+prop_pres1 Cert Step M V :-
   llcheck Cert nil nil (is_lexp M),
   eval Step M V,
   not(llinterp nil nil (is_lexp V)).
 
 prop_pres2 Cert Step M V :-
-  llcheck Cert nil nil (is_exp M),
+  llcheck Cert nil nil (is_prog M),
   not(llinterp nil nil (is_lexp M)),
   llinterp nil nil (wt M Ty),
   eval Step M V,

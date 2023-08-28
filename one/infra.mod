@@ -1,5 +1,10 @@
 module infra.
+accumulate debug.
 accumulate random.
+
+% llinterp A B C :- announce (llinterp A B C).
+% llcheck A B C D :- announce (llcheck A B C D).
+
 /* llinterp */
 llinterp In In  tt.
 llinterp In In  (T eq T).
@@ -45,8 +50,8 @@ llcheck Cert In Out (A =o G)    :- impC Cert Cert',
 llcheck Cert In Out (A -o G)    :- limpC Cert Cert',
                                    llcheck Cert ((bnd A)::In) (del::Out) G.
 llcheck Cert In Out A           :- initE Cert, pick A In Out.
-llcheck Cert In Out A           :- backchainE A Cert Cert', 
-                                  (A <>== G), llcheck Cert' In Out G.
+llcheck Cert In Out A           :- (A <>== G), backchainE A Cert Cert', 
+                                   llcheck Cert' In Out G.
 /* end */
 
 % Some fpcs

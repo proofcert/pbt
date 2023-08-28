@@ -9,7 +9,7 @@ TEYJUS=/usr/local/bin
 # in user's makefiles
 
 .PHONY: all
-all: counter.lp cr.lp lists.lp
+all: counter.lp cr.lp lists.lp harness.lp
 
 %.lpo : %.mod %.sig
 	$(TEYJUS)/tjcc $*
