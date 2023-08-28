@@ -8,6 +8,9 @@ TEYJUS=/usr/local/bin
 # Everything after this point is generic and should be duplicated
 # in user's makefiles
 
+.PHONY: all
+all: counter.lp cr.lp lists.lp
+
 %.lpo : %.mod %.sig
 	$(TEYJUS)/tjcc $*
 

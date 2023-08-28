@@ -2,7 +2,7 @@ sig infra.
 accum_sig random.
 
 kind sl       type.           % Specification logic formulas
-type tt,ff       sl.             % True
+type tt,ff    sl.             % True
 type and, or  sl -> sl -> sl. % Conjunction and disjunction
 type some     (A -> sl) -> sl.% Existential quantifier
 type eq       A  -> A  -> sl. % Equality
@@ -25,8 +25,8 @@ kind optsl        type.               % Option SL formulas
 type del          optsl.
 type bnd, ubnd    sl -> optsl.
 
-type llinterp  list optsl -> list optsl -> sl -> o.
-type pick      sl -> list optsl -> list optsl -> o.
+type llinterp     list optsl -> list optsl -> sl -> o.
+type pick         sl -> list optsl -> list optsl -> o.
 /* end */
 
 /* sigs */
@@ -43,11 +43,11 @@ type   random   cert.
 
 type   iterate   int -> o.
 % The types for the expert predicates
-type ttE, eqE                   cert -> o.
-type backchainE         sl -> cert -> cert -> o.
-type someE         cert -> cert -> A -> o.
-type andE       cert -> cert -> cert -> o.
-type orE      cert -> cert -> choice -> o.
+type ttE, eqE                     cert -> o.
+type backchainE     sl -> cert -> cert -> o.
+type someE           cert -> cert -> A -> o.
+type andE         cert -> cert -> cert -> o.
+type orE        cert -> cert -> choice -> o.
 /* end */
 
 /* new */
@@ -74,8 +74,6 @@ infixr <c>   5.
 % Additional constructor needed for the max certificate
 
 type ab        (A -> max) -> max.
-
-
 
 /* weight_cert */
 type noweight      cert.
