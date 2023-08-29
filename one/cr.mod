@@ -1,6 +1,6 @@
 module cr.
 
-% [harness] ?- prop_dia (height 4) beta M.
+% ?- prop_dia (height 4) beta M.
 %
 % The answer substitution:
 % M = app (lam (W1\ app W1 W1)) (app (lam (W1\ W1)) (lam (W1\ W1)))
@@ -23,7 +23,7 @@ prop_dia Cert Step M :-
     not(llinterp nil nil (joinableS Step M1 M2)).
 /* end */
 
-% [harness] ?- prop_eta_pres (height 4) M M' A.
+% ?- prop_eta_pres (height 4) M M' A.
 %
 % The answer substitution:
 % A = arTy _T1 (arTy unitTy (arTy _T2 unitTy))
@@ -77,13 +77,13 @@ is_ty (arTy A B) <>== (is_ty A) and (is_ty B).
 example 1 (app (app (lam (W1\ W1)) (lam (W1\ W1))) (lam (W1\ lam (W2\ W1)))).
 example 2 (app (app (lam (W1\ W1)) (lam (W1\ W1))) (lam (W1\ lam (W2\ ep)))).
 
-% ?- example 1 M, example 2 N, eta_pres (height 5) M N (arTy unitTy (arTy _T1 unitTy)).
+% ?- example 1 M, example 2 N, prop_eta_pres (height 5) M N (arTy unitTy (arTy _T1 unitTy)).
 % This fail, meaning that M and N can both have this type.
 %
-% ?- example 1 M, example 2 N, eta_pres (height 5) M N (arTy A (arTy unitTy (arTy B unitTy))).
+% ?- example 1 M, example 2 N, prop_eta_pres (height 5) M N (arTy A (arTy unitTy (arTy B unitTy))).
 % This succeeds, meaning that M and N cannot both have this type.
 
-% [harness] ?- prop_eta_dia (height 4)  M A.
+% ?- prop_eta_dia (height 4)  M A.
 %
 % The answer substitution:
 % A = arTy (arTy unitTy unitTy) (arTy unitTy unitTy)
@@ -111,7 +111,7 @@ example 2 (app (app (lam (W1\ W1)) (lam (W1\ W1))) (lam (W1\ lam (W2\ ep)))).
 %
 % no (more) solutions
 %
-% [harness] ?- 
+% ?- 
 
 joinable_teta M M A    <>== tt.
 joinable_teta M1 M2 A  <>== some P\ (teta M1 P A) and (teta M2 P A).

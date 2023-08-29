@@ -1,5 +1,4 @@
 sig infra.
-accum_sig debug.
 accum_sig random.
 
 kind sl       type.           % Specification logic formulas

@@ -90,7 +90,7 @@ cex_rev_test_sym  O L :-
   open_oracle O ((iterate 10), nocex_rev noweight L).
 
 % Insertion into a bad-ordered list might not be bad-ordered.
-% [harness] ?- cex_ord_bad (height 4) N L.
+% ?- cex_ord_bad (height 4) N L.
 %
 % The answer substitution:
 % L = z :: s z :: z :: nil
@@ -114,7 +114,7 @@ cex_ord_bad Gen N L :-
 % The following query tries upto 10 times to find a counterexample
 % using randomized testing (thus getting different counterexamples).
 %
-% [harness] ?- cex_ord_test_r oracle8 N L.
+% ?- cex_ord_test_r oracle8 N L.
 %
 % The answer substitution:
 % L = s (s (s (s (s (s (s (s (s z)))))))) :: 

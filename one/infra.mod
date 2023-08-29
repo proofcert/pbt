@@ -1,9 +1,5 @@
 module infra.
-accumulate debug.
 accumulate random.
-
-% llinterp A B C :- announce (llinterp A B C).
-% llcheck A B C D :- announce (llcheck A B C D).
 
 /* llinterp */
 llinterp In In  tt.
