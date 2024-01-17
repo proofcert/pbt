@@ -13,7 +13,10 @@ The files in this folder were used by the authors to develop the examples and co
 
 The reader who is interested in testing the examples in the paper will find those various files and examples better organized in the following directory.
 
-- one/ working dir for all the above w/o repetitions, but slightly different from the paper.  In particular, llinterp/llcheck is used also with both Horn clause and hereditary Harrop formulas (see the discussion on page 25).
+- one/ working dir for all the above w/o repetitions, but slightly
+  different from the paper.  In particular, llinterp/llcheck is used
+  also with both Horn clause and hereditary Harrop formulas (see the
+  discussion on page 25).
 
 ## Running the tests examples and counterexamples
 
@@ -21,5 +24,7 @@ To compile and link all the code using the Teyjus implementation of λProlog, si
 
 > tjsim harness
 
-to try the sample queries.  These queries can be found in the files lists.mod, cr.mod, and counter.mod, on commented lines that contain the symbol "?-".
+to try the sample queries.  These queries can be found in the files
+lists.mod, cr.mod, and counter.mod, on commented lines that contain
+the symbol "?-".
 
