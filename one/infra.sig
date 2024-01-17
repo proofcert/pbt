@@ -1,6 +1,11 @@
 sig infra.
 accum_sig random.
 
+kind nat   type.
+type z     nat.
+type s     nat -> nat.
+
+
 kind sl       type.           % Specification logic formulas
 type tt,ff    sl.             % True
 type and, or  sl -> sl -> sl. % Conjunction and disjunction

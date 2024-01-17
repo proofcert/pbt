@@ -1,15 +1,45 @@
 module counter.
 
+member X (X::_).
+member X (_::L) :- member X L.
 /* toggle */
 toggle G <>== on  and (off -o G).
 toggle G <>== off and (on  -o G).
 /* end */
 
 /* perm */
-perm (X::L) K   <>== element X -o perm L K.
-perm nil (X::K) <>== element X and perm nil K.
-perm nil nil    <>== tt.
+ perm (X::L) K   <>== element X -o perm L K.
+ perm nil (X::K) <>== element X and perm nil K.
+ perm nil nil    <>== tt.
 /* end */
+
+
+(load_bug nil K) <>==  unload K.
+(load_bug (X::L) K)   <>== element (X) =o load_bug  L K. %bug
+unload(nil)    <>==  tt.
+unload(X::L)   <>== element X and unload(L).
+
+perm_bug L  K     <>==  bang(load_bug L K).
+
+
+
+% perm_bug (X::L) K   <>== element X =o perm_bug L K.
+% perm_bug nil (X::K) <>== element X and perm_bug nil K.
+% perm_bug nil nil    <>== tt.
+
+(isnat z)     <>== tt.
+(isnat (s X)) <>== (isnat X).
+(natlist nil)     <>== tt.
+(natlist (N::Ns)) <>== ((isnat N) and (natlist Ns)).
+
+
+
+perm_pres Cert PermDef L K :-
+	  llcheck Cert nil nil  (natlist L),  % standard generator
+	  member X L,
+	  llinterp nil nil (PermDef L K),
+	  not (member X K). 
+
 
 % Stuff specific for Section 7.2: Operational semantics: lc with a counter
 % linear expressions

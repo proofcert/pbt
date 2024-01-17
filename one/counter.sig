@@ -8,10 +8,17 @@ type toggle     sl -> sl.
 /* end */
 
 /* perm */
-type element   A -> sl.
-type perm      list A -> list A -> sl.
-/* end */
-
+ type element   A -> sl.
+ type perm      list A -> list A -> sl.
+ /* end */
+  type perm_bug      list A -> list A -> sl.
+ type  member  A -> list A -> o.
+type isnat                                     nat -> sl.
+type natlist                              list nat -> sl.
+type load  list A -> list A -> sl.
+type load_bug  list A -> list A -> sl.
+type unload list A -> sl.
+type perm_pres  cert -> (list A -> list A -> sl) -> list A -> list A -> o.
 /* is_lexp */
 type is_lexp           exp -> sl.
 /* end */
