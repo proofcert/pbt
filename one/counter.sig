@@ -19,6 +19,7 @@ type load  list A -> list A -> sl.
 type load_bug  list A -> list A -> sl.
 type unload list A -> sl.
 type perm_pres  cert -> (list A -> list A -> sl) -> list A -> list A -> o.
+type perm_sym cert -> (list A -> list A -> sl) -> list A -> list A -> o.
 /* is_lexp */
 type is_lexp           exp -> sl.
 /* end */

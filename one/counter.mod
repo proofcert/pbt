@@ -32,7 +32,11 @@ perm_bug L  K     <>==  bang(load_bug L K).
 (natlist nil)     <>== tt.
 (natlist (N::Ns)) <>== ((isnat N) and (natlist Ns)).
 
-
+% can also check refl, trans
+perm_sym Cert PermDef L K :-
+	  llcheck Cert nil nil  (natlist L),  % standard generator
+	  llinterp nil nil (PermDef L K),
+	  not (llinterp nil nil (PermDef K L )).
 
 perm_pres Cert PermDef L K :-
 	  llcheck Cert nil nil  (natlist L),  % standard generator
